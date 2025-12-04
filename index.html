@@ -5,1017 +5,301 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>波本本的分享空间</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Microsoft YaHei', sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            transition: background-image 0.5s;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* 头部样式 */
-        .header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .logo-container {
-            width: 80px;
-            height: 80px;
-            margin-right: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid #3498db;
-        }
-        
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .title {
-            font-size: 28px;
-            color: #2c3e50;
-            font-weight: bold;
-        }
-        
-        /* 标签页样式 */
-        .tabs-container {
-            margin-bottom: 20px;
-        }
-        
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            border-bottom: 2px solid #3498db;
-        }
-        
-        .tab {
-            padding: 12px 20px;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            margin-right: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .tab:hover {
-            background-color: #e9ecef;
-        }
-        
-        .tab.active {
-            background-color: #3498db;
-            color: white;
-            border-color: #3498db;
-        }
-        
-        /* 内容区样式 */
-        .tab-content {
-            display: none;
-            background-color: white;
-            padding: 25px;
-            border-radius: 0 8px 8px 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            min-height: 500px;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        /* 图片显示区域样式 */
-        .images-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .image-card {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-            background-color: white;
-        }
-        
-        .image-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .image-preview {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            cursor: pointer;
-        }
-        
-        .image-info {
-            padding: 15px;
-        }
-        
-        .image-info p {
-            margin-bottom: 8px;
-            color: #555;
-            font-size: 14px;
-        }
-        
-        /* 流水账显示区域样式 */
-        .account-container {
-            margin-bottom: 30px;
-        }
-        
-        .account-item {
-            background-color: #f8f9fa;
-            border-left: 4px solid #3498db;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 0 8px 8px 0;
-        }
-        
-        .account-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .account-content {
-            color: #555;
-            line-height: 1.5;
-        }
-        
-        /* 表单样式 */
-        .form-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-        }
-        
-        .form-title {
-            font-size: 18px;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: bold;
-        }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn:hover {
-            background-color: #2980b9;
-        }
-        
-        .btn-danger {
-            background-color: #e74c3c;
-        }
-        
-        .btn-danger:hover {
-            background-color: #c0392b;
-        }
-        
-        .btn-success {
-            background-color: #2ecc71;
-        }
-        
-        .btn-success:hover {
-            background-color: #27ae60;
-        }
-        
-        /* 密码输入框样式 */
-        .password-container {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-        }
-        
-        .password-input {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .password-input input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        /* 空数据提示样式 */
-        .empty-message {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-            font-size: 18px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            border: 2px dashed #ddd;
-        }
-        
-        /* 数据管理样式 */
-        .data-management {
-            margin-top: 30px;
-        }
-        
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        
-        .data-table th,
-        .data-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .data-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .data-table tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .thumbnail {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-        
-        /* 搜索功能样式 */
-        .search-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .search-container input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        /* 批量操作样式 */
-        .batch-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        /* 模态框样式 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-        }
-        
-        .modal-content img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            background-color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* 设置页面样式 */
-        .settings-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .setting-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-        
-        .setting-title {
-            font-size: 18px;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .tabs {
-                flex-direction: column;
-            }
-            
-            .tab {
-                margin-right: 0;
-                margin-bottom: 5px;
-                border-radius: 8px;
-            }
-            
-            .tab-content {
-                border-radius: 8px;
-            }
-            
-            .images-container {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-            
-            .settings-container {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+        .logo { width: 50px; height: 50px; border-radius: 50%; background-color: #ccc; }
+        h1 { color: #333; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
+        .tab { padding: 10px 20px; background-color: #e0e0e0; border: none; cursor: pointer; }
+        .tab.active { background-color: #4CAF50; color: white; }
+        .tab-content { display: none; background-color: white; padding: 20px; border-radius: 5px; }
+        .tab-content.active { display: block; }
+        .images-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .image-item { border: 1px solid #ddd; padding: 10px; border-radius: 5px; }
+        .image-preview { width: 100%; height: 150px; object-fit: cover; cursor: pointer; }
+        .form-container { background-color: #f9f9f9; padding: 20px; border-radius: 5px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .btn { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn:hover { background-color: #45a049; }
+        .password-form { margin-bottom: 20px; }
+        .empty-state { text-align: center; padding: 40px; color: #888; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { max-width: 90%; max-height: 90%; }
+        .modal-close { position: absolute; top: 20px; right: 20px; color: white; font-size: 30px; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 头部 -->
-        <div class="header">
-            <div class="logo-container" id="logoContainer">
-                <!-- Logo将通过JS动态加载 -->
+        <header>
+            <div class="logo-container">
+                <img id="site-logo" src="" alt="站点LOGO" class="logo">
+                <h1>波本本的分享空间</h1>
             </div>
-            <div class="title">波本本的分享空间</div>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" data-tab="images">图片分享</button>
+            <button class="tab" data-tab="image-data">图片数据访问</button>
+            <button class="tab" data-tab="journal">流水账</button>
+            <button class="tab" data-tab="journal-data">流水账数据访问</button>
+            <button class="tab" data-tab="send">发片</button>
+            <button class="tab" data-tab="register">登记</button>
+            <button class="tab" data-tab="data-access">发收数据访问</button>
+            <button class="tab" data-tab="settings">标志和背景设置</button>
+            <button class="tab" data-tab="poke">戳戳我</button>
         </div>
         
-        <!-- 标签页导航 -->
-        <div class="tabs-container">
-            <div class="tabs" id="tabs">
-                <div class="tab active" data-tab="tab1">图片分享</div>
-                <div class="tab" data-tab="tab2">图片数据访问</div>
-                <div class="tab" data-tab="tab3">流水账</div>
-                <div class="tab" data-tab="tab4">流水账数据访问</div>
-                <div class="tab" data-tab="tab5">发片</div>
-                <div class="tab" data-tab="tab6">登记</div>
-                <div class="tab" data-tab="tab7">发收数据访问</div>
-                <div class="tab" data-tab="tab8">标志和背景设置</div>
-                <div class="tab" data-tab="tab9">戳戳我</div>
-            </div>
-        </div>
-        
-        <!-- 标签页内容 -->
         <!-- 图片分享 -->
-        <div id="tab1" class="tab-content active">
-            <div class="images-container" id="imageGallery">
-                <!-- 图片将通过JS动态加载 -->
-                <div class="empty-message">等待图片上传</div>
+        <div id="images" class="tab-content active">
+            <h2>图片分享</h2>
+            <div id="images-container" class="images-grid">
+                <div class="empty-state">等待图片上传</div>
             </div>
-            
-            <div class="form-section">
-                <div class="form-title">图片上传</div>
-                <div class="password-container" id="imageUploadPassword">
-                    <p>请输入图片上传管理密码</p>
-                    <div class="password-input">
-                        <input type="password" id="imagePassword" placeholder="请输入密码">
-                        <button class="btn" onclick="checkImagePassword()">提交</button>
-                    </div>
+            <div class="form-container">
+                <div class="password-form">
+                    <input type="password" id="image-upload-password" placeholder="请输入图片上传管理密码">
+                    <button class="btn" onclick="checkImageUploadPassword()">验证密码</button>
                 </div>
-                
-                <div id="imageUploadForm" style="display: none;">
-                    <div class="form-group">
-                        <label for="imageFile">图片选择</label>
-                        <input type="file" id="imageFile" accept=".jpg,.jpeg,.png">
-                    </div>
-                    <div class="form-group">
-                        <label for="imageUploader">上传人</label>
-                        <input type="text" id="imageUploader" value="Bourbonbon">
-                    </div>
-                    <div class="form-group">
-                        <label for="imageDate">上传日期</label>
-                        <input type="text" id="imageDate" placeholder="年月日 时分">
-                    </div>
-                    <div class="form-group">
-                        <label for="imageLocation">上传地点</label>
-                        <input type="text" id="imageLocation" placeholder="省、市、区、街道">
-                    </div>
-                    <div class="form-group">
-                        <label for="imageNote">备注</label>
-                        <textarea id="imageNote" maxlength="30" placeholder="限制30个字"></textarea>
-                    </div>
-                    <button class="btn" onclick="uploadImage()">上传图片</button>
-                </div>
+                <form id="image-upload-form" style="display:none;">
+                    <div class="form-group"><label>图片选择 *</label><input type="file" id="image-file" accept=".jpg,.jpeg,.png" required></div>
+                    <div class="form-group"><label>上传人 *</label><input type="text" id="image-uploader" value="Bourbonbon" required></div>
+                    <div class="form-group"><label>上传日期 *</label><input type="text" id="image-date" placeholder="年月日 时分" required></div>
+                    <div class="form-group"><label>上传地点 *</label><input type="text" id="image-location" placeholder="省、市、区、街道" required></div>
+                    <div class="form-group"><label>备注 *</label><textarea id="image-notes" maxlength="30" required></textarea></div>
+                    <button type="button" class="btn" onclick="uploadImage()">上传图片</button>
+                </form>
             </div>
         </div>
         
         <!-- 图片数据访问 -->
-        <div id="tab2" class="tab-content">
-            <div class="password-container" id="imageDataPassword">
-                <p>请输入管理密码</p>
-                <div class="password-input">
-                    <input type="password" id="imageDataPasswordInput" placeholder="请输入密码">
-                    <button class="btn" onclick="checkImageDataPassword()">提交</button>
-                </div>
+        <div id="image-data" class="tab-content">
+            <h2>图片数据访问</h2>
+            <div class="password-form">
+                <input type="password" id="image-data-password" placeholder="请输入管理密码">
+                <button class="btn" onclick="checkImageDataPassword()">验证密码</button>
             </div>
-            
-            <div id="imageDataContent" style="display: none;">
-                <div class="data-management">
-                    <h3>图片数据管理</h3>
-                    <div id="imageDataTable">
-                        <!-- 图片数据表格将通过JS动态加载 -->
-                    </div>
-                </div>
-            </div>
+            <div id="images-data-container" style="display:none;"></div>
         </div>
         
         <!-- 流水账 -->
-        <div id="tab3" class="tab-content">
-            <div class="account-container" id="accountGallery">
-                <!-- 流水账将通过JS动态加载 -->
-                <div class="empty-message">等待流水账上传</div>
-            </div>
-            
-            <div class="form-section">
-                <div class="form-title">流水账上传</div>
-                <div class="password-container" id="accountUploadPassword">
-                    <p>请输入流水账上传管理密码</p>
-                    <div class="password-input">
-                        <input type="password" id="accountPassword" placeholder="请输入密码">
-                        <button class="btn" onclick="checkAccountPassword()">提交</button>
-                    </div>
+        <div id="journal" class="tab-content">
+            <h2>流水账</h2>
+            <div id="journal-container"></div>
+            <div class="form-container">
+                <div class="password-form">
+                    <input type="password" id="journal-upload-password" placeholder="请输入流水账上传管理密码">
+                    <button class="btn" onclick="checkJournalUploadPassword()">验证密码</button>
                 </div>
-                
-                <div id="accountUploadForm" style="display: none;">
-                    <div class="form-group">
-                        <label for="accountDate">上传日期</label>
-                        <input type="text" id="accountDate" placeholder="年月日">
-                    </div>
-                    <div class="form-group">
-                        <label for="accountTime">上传时间</label>
-                        <input type="text" id="accountTime" placeholder="时分">
-                    </div>
-                    <div class="form-group">
-                        <label for="accountContent">流水账内容</label>
-                        <textarea id="accountContent" maxlength="30" placeholder="限制30个字"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="accountUploader">上传人</label>
-                        <input type="text" id="accountUploader" value="Bourbonbon">
-                    </div>
-                    <button class="btn" onclick="uploadAccount()">上传流水账</button>
-                </div>
+                <form id="journal-upload-form" style="display:none;">
+                    <div class="form-group"><label>上传日期 *</label><input type="text" id="journal-date" placeholder="年月日" required></div>
+                    <div class="form-group"><label>上传时间 *</label><input type="text" id="journal-time" placeholder="时分" required></div>
+                    <div class="form-group"><label>流水账内容 *</label><textarea id="journal-content" maxlength="30" required></textarea></div>
+                    <div class="form-group"><label>上传人 *</label><input type="text" id="journal-uploader" value="Bourbonbon" required></div>
+                    <button type="button" class="btn" onclick="uploadJournal()">上传流水账</button>
+                </form>
             </div>
         </div>
         
         <!-- 流水账数据访问 -->
-        <div id="tab4" class="tab-content">
-            <div class="password-container" id="accountDataPassword">
-                <p>请输入管理密码</p>
-                <div class="password-input">
-                    <input type="password" id="accountDataPasswordInput" placeholder="请输入密码">
-                    <button class="btn" onclick="checkAccountDataPassword()">提交</button>
-                </div>
+        <div id="journal-data" class="tab-content">
+            <h2>流水账数据访问</h2>
+            <div class="password-form">
+                <input type="password" id="journal-data-password" placeholder="请输入管理密码">
+                <button class="btn" onclick="checkJournalDataPassword()">验证密码</button>
             </div>
-            
-            <div id="accountDataContent" style="display: none;">
-                <div class="data-management">
-                    <h3>流水账数据管理</h3>
-                    <div id="accountDataTable">
-                        <!-- 流水账数据表格将通过JS动态加载 -->
-                    </div>
-                </div>
-            </div>
+            <div id="journal-data-container" style="display:none;"></div>
         </div>
         
         <!-- 发片 -->
-        <div id="tab5" class="tab-content">
-            <div class="images-container" id="sendGallery">
-                <!-- 发片数据将通过JS动态加载 -->
-                <div class="empty-message">等待发片上传</div>
-            </div>
-            
-            <div class="form-section">
-                <div class="form-title">发片上传</div>
-                <div class="password-container" id="sendUploadPassword">
-                    <p>请输入管理密码</p>
-                    <div class="password-input">
-                        <input type="password" id="sendPassword" placeholder="密码提示：000000">
-                        <button class="btn" onclick="checkSendPassword()">提交</button>
-                    </div>
+        <div id="send" class="tab-content">
+            <h2>发片</h2>
+            <div id="send-container"></div>
+            <div class="form-container">
+                <div class="password-form">
+                    <input type="password" id="send-upload-password" placeholder="请输入管理密码">
+                    <button class="btn" onclick="checkSendUploadPassword()">验证密码</button>
                 </div>
-                
-                <div id="sendUploadForm" style="display: none;">
-                    <div class="form-group">
-                        <label for="sendId">编号</label>
-                        <input type="text" id="sendId" maxlength="9" placeholder="限制9个字">
-                    </div>
-                    <div class="form-group">
-                        <label for="sendDate">上传日期</label>
-                        <input type="text" id="sendDate" placeholder="年月日 时分">
-                    </div>
-                    <div class="form-group">
-                        <label for="sendLocation">上传地址</label>
-                        <input type="text" id="sendLocation" placeholder="省、市、区、街道">
-                    </div>
-                    <div class="form-group">
-                        <label for="sendFile">图片上传</label>
-                        <input type="file" id="sendFile" accept=".jpg,.jpeg,.png">
-                    </div>
-                    <div class="form-group">
-                        <label for="sendUploader">上传人</label>
-                        <input type="text" id="sendUploader">
-                    </div>
-                    <button class="btn" onclick="uploadSend()">上传发片</button>
-                </div>
+                <form id="send-upload-form" style="display:none;">
+                    <div class="form-group"><label>编号 *</label><input type="text" id="send-id" maxlength="9" required></div>
+                    <div class="form-group"><label>上传日期 *</label><input type="text" id="send-date" placeholder="年月日 时分" required></div>
+                    <div class="form-group"><label>上传地址 *</label><input type="text" id="send-address" placeholder="省、市、区、街道" required></div>
+                    <div class="form-group"><label>图片上传 *</label><input type="file" id="send-image" accept=".jpg,.jpeg,.png" required></div>
+                    <div class="form-group"><label>上传人 *</label><input type="text" id="send-uploader" required></div>
+                    <button type="button" class="btn" onclick="uploadSend()">上传发片</button>
+                </form>
             </div>
         </div>
         
         <!-- 登记 -->
-        <div id="tab6" class="tab-content">
-            <div class="images-container" id="registerGallery">
-                <!-- 登记数据将通过JS动态加载 -->
-                <div class="empty-message">等待登记上传</div>
-            </div>
-            
-            <div class="form-section">
-                <div class="form-title">登记上传</div>
-                <div class="password-container" id="registerUploadPassword">
-                    <p>请输入管理密码</p>
-                    <div class="password-input">
-                        <input type="password" id="registerPassword" placeholder="密码提示：000000">
-                        <button class="btn" onclick="checkRegisterPassword()">提交</button>
-                    </div>
+        <div id="register" class="tab-content">
+            <h2>登记</h2>
+            <div id="register-container"></div>
+            <div class="form-container">
+                <div class="password-form">
+                    <input type="password" id="register-upload-password" placeholder="请输入管理密码">
+                    <button class="btn" onclick="checkRegisterUploadPassword()">验证密码</button>
                 </div>
-                
-                <div id="registerUploadForm" style="display: none;">
-                    <div class="form-group">
-                        <label for="registerId">编号</label>
-                        <input type="text" id="registerId" maxlength="9" placeholder="限制9个字">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerDate">上传日期</label>
-                        <input type="text" id="registerDate" placeholder="年月日 时分">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerLocation">上传地址</label>
-                        <input type="text" id="registerLocation" placeholder="省、市、区、街道">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerFile">图片上传</label>
-                        <input type="file" id="registerFile" accept=".jpg,.jpeg,.png">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerUploader">上传人</label>
-                        <input type="text" id="registerUploader">
-                    </div>
-                    <button class="btn" onclick="uploadRegister()">上传登记</button>
-                </div>
+                <form id="register-upload-form" style="display:none;">
+                    <div class="form-group"><label>编号 *</label><input type="text" id="register-id" maxlength="9" required></div>
+                    <div class="form-group"><label>上传日期 *</label><input type="text" id="register-date" placeholder="年月日 时分" required></div>
+                    <div class="form-group"><label>上传地址 *</label><input type="text" id="register-address" placeholder="省、市、区、街道" required></div>
+                    <div class="form-group"><label>图片上传 *</label><input type="file" id="register-image" accept=".jpg,.jpeg,.png" required></div>
+                    <div class="form-group"><label>上传人 *</label><input type="text" id="register-uploader" required></div>
+                    <button type="button" class="btn" onclick="uploadRegister()">上传登记</button>
+                </form>
             </div>
         </div>
         
         <!-- 发收数据访问 -->
-        <div id="tab7" class="tab-content">
-            <div class="password-container" id="sendRegisterDataPassword">
-                <p>请输入管理密码</p>
-                <div class="password-input">
-                    <input type="password" id="sendRegisterPasswordInput" placeholder="请输入密码">
-                    <button class="btn" onclick="checkSendRegisterPassword()">提交</button>
-                </div>
+        <div id="data-access" class="tab-content">
+            <h2>发收数据访问</h2>
+            <div class="password-form">
+                <input type="password" id="data-access-password" placeholder="请输入管理密码">
+                <button class="btn" onclick="checkDataAccessPassword()">验证密码</button>
             </div>
-            
-            <div id="sendRegisterDataContent" style="display: none;">
-                <div class="data-management">
-                    <div class="batch-actions">
-                        <div>
-                            <input type="checkbox" id="selectAllSend" onchange="toggleSelectAll('send')">
-                            <label for="selectAllSend">全选发片数据</label>
-                        </div>
-                        <button class="btn btn-danger" onclick="batchDelete('send')">批量删除选中</button>
-                    </div>
-                    
-                    <div class="search-container">
-                        <input type="text" id="searchSend" placeholder="搜索发片数据..." onkeyup="searchData('send')">
-                    </div>
-                    
-                    <h3>发片数据管理</h3>
-                    <div id="sendDataTable">
-                        <!-- 发片数据表格将通过JS动态加载 -->
-                    </div>
-                    
-                    <div class="batch-actions" style="margin-top: 40px;">
-                        <div>
-                            <input type="checkbox" id="selectAllRegister" onchange="toggleSelectAll('register')">
-                            <label for="selectAllRegister">全选登记数据</label>
-                        </div>
-                        <button class="btn btn-danger" onclick="batchDelete('register')">批量删除选中</button>
-                    </div>
-                    
-                    <div class="search-container">
-                        <input type="text" id="searchRegister" placeholder="搜索登记数据..." onkeyup="searchData('register')">
-                    </div>
-                    
-                    <h3>登记数据管理</h3>
-                    <div id="registerDataTable">
-                        <!-- 登记数据表格将通过JS动态加载 -->
-                    </div>
-                </div>
+            <div id="data-access-container" style="display:none;">
+                <h3>发片数据</h3>
+                <input type="text" id="send-search" placeholder="搜索发片数据">
+                <button onclick="searchSendData()">搜索</button>
+                <div id="send-data-table"></div>
+                <button onclick="batchDeleteSend()">批量删除选中</button>
+                
+                <h3>登记数据</h3>
+                <input type="text" id="register-search" placeholder="搜索登记数据">
+                <button onclick="searchRegisterData()">搜索</button>
+                <div id="register-data-table"></div>
+                <button onclick="batchDeleteRegister()">批量删除选中</button>
             </div>
         </div>
         
         <!-- 标志和背景设置 -->
-        <div id="tab8" class="tab-content">
-            <div class="password-container" id="settingsPassword">
-                <p>请输入管理密码</p>
-                <div class="password-input">
-                    <input type="password" id="settingsPasswordInput" placeholder="请输入密码">
-                    <button class="btn" onclick="checkSettingsPassword()">提交</button>
-                </div>
+        <div id="settings" class="tab-content">
+            <h2>标志和背景设置</h2>
+            <div class="password-form">
+                <input type="password" id="settings-password" placeholder="请输入管理密码">
+                <button class="btn" onclick="checkSettingsPassword()">验证密码</button>
             </div>
-            
-            <div id="settingsContent" style="display: none;">
-                <div class="settings-container">
-                    <div class="setting-section">
-                        <div class="setting-title">LOGO设置</div>
-                        <div id="currentLogo">
-                            <!-- 当前Logo将通过JS动态加载 -->
-                        </div>
-                        <div class="form-group">
-                            <label for="logoFile">LOGO上传</label>
-                            <input type="file" id="logoFile" accept=".jpg,.jpeg,.png">
-                        </div>
-                        <button class="btn" onclick="uploadLogo()">上传LOGO</button>
-                        <button class="btn btn-danger" onclick="deleteLogo()">删除LOGO</button>
-                    </div>
-                    
-                    <div class="setting-section">
-                        <div class="setting-title">背景设置</div>
-                        <div id="currentBackground">
-                            <!-- 当前背景将通过JS动态加载 -->
-                        </div>
-                        <div class="form-group">
-                            <label for="backgroundFile">背景上传</label>
-                            <input type="file" id="backgroundFile" accept=".jpg,.jpeg,.png">
-                        </div>
-                        <button class="btn" onclick="uploadBackground()">上传背景</button>
-                        <button class="btn btn-danger" onclick="deleteBackground()">删除背景</button>
-                    </div>
-                    
-                    <div class="setting-section">
-                        <div class="setting-title">戳戳我图片设置</div>
-                        <div class="password-container" id="pokePassword">
-                            <p>请输入二次管理密码</p>
-                            <div class="password-input">
-                                <input type="password" id="pokePasswordInput" placeholder="请输入密码">
-                                <button class="btn" onclick="checkPokePassword()">提交</button>
-                            </div>
-                        </div>
-                        
-                        <div id="pokeSettings" style="display: none;">
-                            <div id="currentPoke">
-                                <!-- 当前戳戳我图片将通过JS动态加载 -->
-                            </div>
-                            <div class="form-group">
-                                <label for="pokeFile">戳戳我图片上传</label>
-                                <input type="file" id="pokeFile" accept=".jpg,.jpeg,.png">
-                            </div>
-                            <button class="btn" onclick="uploadPoke()">上传戳戳我图片</button>
-                            <button class="btn btn-danger" onclick="deletePoke()">删除戳戳我图片</button>
-                        </div>
-                    </div>
+            <div id="settings-container" style="display:none;">
+                <h3>LOGO设置</h3>
+                <input type="file" id="logo-upload" accept=".jpg,.jpeg,.png">
+                <button onclick="uploadLogo()">上传/更新LOGO</button>
+                <button onclick="deleteLogo()">删除LOGO</button>
+                
+                <h3>背景设置</h3>
+                <input type="file" id="bg-upload" accept=".jpg,.jpeg,.png">
+                <button onclick="uploadBackground()">上传/更新背景</button>
+                <button onclick="deleteBackground()">删除背景</button>
+                
+                <h3>戳戳我图片设置</h3>
+                <div class="password-form">
+                    <input type="password" id="poke-upload-password" placeholder="请输入二次管理密码">
+                    <button class="btn" onclick="checkPokeUploadPassword()">验证密码</button>
+                </div>
+                <div id="poke-upload-container" style="display:none;">
+                    <input type="file" id="poke-upload" accept=".jpg,.jpeg,.png">
+                    <button onclick="uploadPokeImage()">上传/更新图片</button>
+                    <button onclick="deletePokeImage()">删除图片</button>
                 </div>
             </div>
         </div>
         
         <!-- 戳戳我 -->
-        <div id="tab9" class="tab-content">
-            <div id="pokeDisplay">
-                <!-- 戳戳我图片将通过JS动态加载 -->
-                <div class="empty-message">等待戳戳我图片上传</div>
+        <div id="poke" class="tab-content">
+            <h2>戳戳我</h2>
+            <div id="poke-container" style="text-align:center; padding: 50px;">
+                <div class="empty-state">等待戳戳我图片上传</div>
             </div>
         </div>
     </div>
     
-    <!-- 图片放大模态框 -->
-    <div class="modal" id="imageModal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal()">×</div>
-            <img id="modalImage" src="" alt="放大图片">
-        </div>
+    <!-- 图片放大查看模态框 -->
+    <div id="imageModal" class="modal">
+        <span class="modal-close" onclick="closeImageModal()">&times;</span>
+        <img id="modalImage" class="modal-content">
     </div>
-
+    
     <script>
         // 密码常量
         const DEFAULT_PASSWORD = "740302";
-        const SEND_REGISTER_PASSWORD = "000000";
+        const ALTERNATE_PASSWORD = "000000";
         
-        // 存储当前标签页
-        let currentTab = "tab1";
-        
-        // 数据存储键名
-        const STORAGE_KEYS = {
-            IMAGES: 'bourbonbon_images',
-            ACCOUNTS: 'bourbonbon_accounts',
-            SENDS: 'bourbonbon_sends',
-            REGISTERS: 'bourbonbon_registers',
-            LOGO: 'bourbonbon_logo',
-            BACKGROUND: 'bourbonbon_background',
-            POKE: 'bourbonbon_poke',
-            CURRENT_TAB: 'bourbonbon_current_tab'
-        };
-        
-        // 初始化函数
-        function init() {
-            // 恢复上次访问的标签页
-            const savedTab = localStorage.getItem(STORAGE_KEYS.CURRENT_TAB);
-            if (savedTab) {
-                switchTab(savedTab);
-            }
-            
-            // 加载Logo
-            loadLogo();
-            
-            // 加载背景
-            loadBackground();
-            
-            // 加载戳戳我图片
-            loadPoke();
-            
-            // 加载图片数据
-            loadImages();
-            
-            // 加载流水账数据
-            loadAccounts();
-            
-            // 加载发片数据
-            loadSends();
-            
-            // 加载登记数据
-            loadRegisters();
-            
-            // 设置表单日期默认值
-            setDefaultDates();
-        }
-        
-        // 设置默认日期时间
-        function setDefaultDates() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            
-            // 设置图片上传日期默认值
-            document.getElementById('imageDate').value = `${year}年${month}月${day}日 ${hours}时${minutes}分`;
-            
-            // 设置流水账日期默认值
-            document.getElementById('accountDate').value = `${year}年${month}月${day}日`;
-            document.getElementById('accountTime').value = `${hours}时${minutes}分`;
-            
-            // 设置发片日期默认值
-            document.getElementById('sendDate').value = `${year}年${month}月${day}日 ${hours}时${minutes}分`;
-            
-            // 设置登记日期默认值
-            document.getElementById('registerDate').value = `${year}年${month}月${day}日 ${hours}时${minutes}分`;
-        }
-        
-        // 标签页切换
-        function switchTab(tabId) {
-            // 更新当前标签页
-            currentTab = tabId;
-            localStorage.setItem(STORAGE_KEYS.CURRENT_TAB, tabId);
-            
-            // 隐藏所有标签内容
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
+        // 初始化标签切换
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 移除所有标签的active类
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // 激活点击的标签
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+                
+                // 保存当前标签页
+                localStorage.setItem('activeTab', tab.dataset.tab);
             });
-            
-            // 显示选中的标签内容
-            document.getElementById(tabId).classList.add('active');
-            
-            // 更新标签样式
+        });
+        
+        // 页面加载时恢复标签页状态
+        const savedTab = localStorage.getItem('activeTab') || 'images';
+        if (savedTab) {
             document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.getAttribute('data-tab') === tabId) {
-                    tab.classList.add('active');
+                if (tab.dataset.tab === savedTab) {
+                    tab.click();
                 }
             });
         }
         
-        // 密码验证函数
-        function checkImagePassword() {
-            const password = document.getElementById('imagePassword').value;
+        // 加载数据
+        window.onload = function() {
+            displayImages();
+            displayJournals();
+            displaySendData();
+            displayRegisterData();
+            loadLogo();
+            loadBackground();
+            loadPokeImage();
+        };
+        
+        // 图片上传密码验证
+        function checkImageUploadPassword() {
+            const password = document.getElementById('image-upload-password').value;
             if (password === DEFAULT_PASSWORD) {
-                document.getElementById('imageUploadPassword').style.display = 'none';
-                document.getElementById('imageUploadForm').style.display = 'block';
+                document.getElementById('image-upload-form').style.display = 'block';
+                document.getElementById('image-upload-password').value = '';
+                alert('密码正确，可以上传图片了');
             } else {
-                alert('密码错误！');
+                alert('密码错误');
             }
         }
         
-        function checkImageDataPassword() {
-            const password = document.getElementById('imageDataPasswordInput').value;
-            if (password === DEFAULT_PASSWORD) {
-                document.getElementById('imageDataPassword').style.display = 'none';
-                document.getElementById('imageDataContent').style.display = 'block';
-                loadImageDataTable();
-            } else {
-                alert('密码错误！');
-            }
-        }
-        
-        function checkAccountPassword() {
-            const password = document.getElementById('accountPassword').value;
-            if (password === DEFAULT_PASSWORD) {
-                document.getElementById('accountUploadPassword').style.display = 'none';
-                document.getElementById('accountUploadForm').style.display = 'block';
-            } else {
-                alert('密码错误！');
-            }
-        }
-        
-        function checkAccountDataPassword() {
-            const password = document.getElementById('accountDataPasswordInput').value;
-            if (password === DEFAULT_PASSWORD) {
-                document.getElementById('accountDataPassword').style.display = 'none';
-                document.getElementById('accountDataContent').style.display = 'block';
-                loadAccountDataTable();
-            } else {
-                alert('密码错误！');
-            }
-        }
-        
-        function checkSendPassword() {
-            const password = document.getElementById('sendPassword').value;
-            if (password === SEND_REGISTER_PASSWORD) {
-                document.getElementById('sendUploadPassword').style.display = 'none';
-                document.getElementById('sendUploadForm').style.display = 'block';
-            } else {
-                alert('密码错误！');
-            }
-        }
-        
-        function checkRegisterPassword() {
-            const password = document.getElementById('registerPassword').value;
-            if (password === SEND_REGISTER_PASSWORD) {
-                document.getElementById('registerUploadPassword').style.display = 'none';
-                document.getElementById('registerUploadForm').style.display = 'block';
-            } else {
-                alert('密码错误！');
-            }
-        }
-        
-        function checkSendRegisterPassword() {
-            const password = document.getElementById('sendRegisterPasswordInput').value;
-            if (password === DEFAULT_PASSWORD) {
-                document.getElementById('sendRegisterDataPassword').style.display = 'none';
-                document.getElementById('sendRegisterDataContent').style.display = 'block';
-                loadSendDataTable();
-                loadRegisterDataTable();
-            } else {
-                alert('密码错误！');
-            }
-        }
-        
-        function checkSettingsPassword() {
-            const password = document.getElementById('settingsPasswordInput').value;
-            if (password === DEFAULT_PASSWORD) {
-                document.getElementById('settingsPassword').style.display = 'none';
-                document.getElementById('settingsContent').style.display = 'block';
-                loadCurrentLogo();
-                loadCurrentBackground();
-                loadCurrentPoke();
-            } else {
-                alert('密码错误！');
-            }
-        }
-        
-        function checkPokePassword() {
-            const password = document.getElementById('pokePasswordInput').value;
-            if (password === DEFAULT_PASSWORD) {
-                document.getElementById('pokePassword').style.display = 'none';
-                document.getElementById('pokeSettings').style.display = 'block';
-            } else {
-                alert('密码错误！');
-            }
-        }
-        
-        // 图片上传功能
+        // 上传图片
         function uploadImage() {
-            const fileInput = document.getElementById('imageFile');
-            const uploader = document.getElementById('imageUploader').value;
-            const date = document.getElementById('imageDate').value;
-            const location = document.getElementById('imageLocation').value;
-            const note = document.getElementById('imageNote').value;
+            const fileInput = document.getElementById('image-file');
+            const uploader = document.getElementById('image-uploader').value;
+            const date = document.getElementById('image-date').value;
+            const location = document.getElementById('image-location').value;
+            const notes = document.getElementById('image-notes').value;
             
-            // 验证必填项
-            if (!fileInput.files[0] || !uploader || !date || !location || !note) {
-                alert('请填写所有必填项！');
+            if (!fileInput.files[0]) {
+                alert('请选择图片文件');
                 return;
             }
             
-            // 验证备注字数
-            if (note.length > 30) {
-                alert('备注不能超过30个字！');
+            if (!uploader || !date || !location || !notes) {
+                alert('请填写所有必填项');
                 return;
             }
             
-            const file = fileInput.files[0];
+            if (notes.length > 30) {
+                alert('备注不能超过30个字');
+                return;
+            }
+            
             const reader = new FileReader();
-            
             reader.onload = function(e) {
                 const imageData = {
                     id: Date.now(),
@@ -1023,49 +307,979 @@
                     uploader: uploader,
                     date: date,
                     location: location,
-                    note: note,
-                    timestamp: new Date().toISOString()
+                    notes: notes
                 };
                 
                 // 保存到localStorage
-                saveImageData(imageData);
-                
-                // 重新加载图片
-                loadImages();
+                let images = JSON.parse(localStorage.getItem('images')) || [];
+                images.push(imageData);
+                localStorage.setItem('images', JSON.stringify(images));
                 
                 // 重置表单
-                resetImageForm();
+                fileInput.value = '';
+                document.getElementById('image-uploader').value = 'Bourbonbon';
+                document.getElementById('image-date').value = '';
+                document.getElementById('image-location').value = '';
+                document.getElementById('image-notes').value = '';
+                document.getElementById('image-upload-form').style.display = 'none';
                 
-                alert('图片上传成功！');
+                // 刷新显示
+                displayImages();
+                alert('上传成功！');
             };
             
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(fileInput.files[0]);
         }
         
-        function saveImageData(imageData) {
-            let images = JSON.parse(localStorage.getItem(STORAGE_KEYS.IMAGES) || '[]');
-            images.push(imageData);
-            localStorage.setItem(STORAGE_KEYS.IMAGES, JSON.stringify(images));
-        }
-        
-        function loadImages() {
-            const images = JSON.parse(localStorage.getItem(STORAGE_KEYS.IMAGES) || '[]');
-            const container = document.getElementById('imageGallery');
+        // 显示图片
+        function displayImages() {
+            const container = document.getElementById('images-container');
+            const images = JSON.parse(localStorage.getItem('images')) || [];
             
             if (images.length === 0) {
-                container.innerHTML = '<div class="empty-message">等待图片上传</div>';
+                container.innerHTML = '<div class="empty-state">等待图片上传</div>';
                 return;
             }
             
-            let html = '';
+            container.innerHTML = '';
+            
             images.forEach(image => {
-                html += `
-                <div class="image-card">
-                    <img src="${image.image}" alt="图片" class="image-preview" onclick="openModal('${image.image}')">
-                    <div class="image-info">
-                        <p><strong>上传人:</strong> ${image.uploader}</p>
-                        <p><strong>上传日期:</strong> ${image.date}</p>
-                        <p><strong>上传地点:</strong> ${image.location}</p>
-                        <p><strong>备注:</strong> ${image.note}</p>
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                imageItem.innerHTML = `
+                    <img src="${image.image}" alt="图片" class="image-preview" onclick="openImageModal('${image.image}')">
+                    <div>
+                        <p>上传人：${image.uploader}</p>
+                        <p>上传日期：${image.date}</p>
+                        <p>上传地点：${image.location}</p>
+                        <p>备注：${image.notes}</p>
                     </div>
-                </div>
+                `;
+                container.appendChild(imageItem);
+            });
+        }
+        
+        // 图片数据访问密码验证
+        function checkImageDataPassword() {
+            const password = document.getElementById('image-data-password').value;
+            if (password === DEFAULT_PASSWORD) {
+                document.getElementById('images-data-container').style.display = 'block';
+                displayImageData();
+                document.getElementById('image-data-password').value = '';
+            } else {
+                alert('密码错误');
+            }
+        }
+        
+        // 显示图片数据（用于管理）
+        function displayImageData() {
+            const container = document.getElementById('images-data-container');
+            const images = JSON.parse(localStorage.getItem('images')) || [];
+            
+            if (images.length === 0) {
+                container.innerHTML = '<div class="empty-state">暂无图片数据</div>';
+                return;
+            }
+            
+            container.innerHTML = '<h3>图片数据管理</h3>';
+            
+            images.forEach((image, index) => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                imageItem.innerHTML = `
+                    <img src="${image.image}" alt="图片" class="image-preview" onclick="openImageModal('${image.image}')">
+                    <div>
+                        <p>上传人：${image.uploader}</p>
+                        <p>上传日期：${image.date}</p>
+                        <p>上传地点：${image.location}</p>
+                        <p>备注：${image.notes}</p>
+                        <button onclick="editImage(${index})">编辑</button>
+                        <button onclick="deleteImage(${index})">删除</button>
+                    </div>
+                `;
+                container.appendChild(imageItem);
+            });
+        }
+        
+        // 编辑图片数据
+        function editImage(index) {
+            const images = JSON.parse(localStorage.getItem('images')) || [];
+            const image = images[index];
+            
+            const newUploader = prompt('请输入新的上传人：', image.uploader);
+            if (newUploader === null) return;
+            
+            const newDate = prompt('请输入新的上传日期（格式：年月日 时分）：', image.date);
+            if (newDate === null) return;
+            
+            const newLocation = prompt('请输入新的上传地点（格式：省、市、区、街道）：', image.location);
+            if (newLocation === null) return;
+            
+            const newNotes = prompt('请输入新的备注（最多30个字）：', image.notes);
+            if (newNotes === null) return;
+            
+            if (newNotes.length > 30) {
+                alert('备注不能超过30个字');
+                return;
+            }
+            
+            image.uploader = newUploader || image.uploader;
+            image.date = newDate || image.date;
+            image.location = newLocation || image.location;
+            image.notes = newNotes || image.notes;
+            
+            localStorage.setItem('images', JSON.stringify(images));
+            displayImageData();
+            displayImages();
+        }
+        
+        // 删除图片数据
+        function deleteImage(index) {
+            if (confirm('确定要删除这张图片吗？')) {
+                const images = JSON.parse(localStorage.getItem('images')) || [];
+                images.splice(index, 1);
+                localStorage.setItem('images', JSON.stringify(images));
+                displayImageData();
+                displayImages();
+            }
+        }
+        
+        // 流水账上传密码验证
+        function checkJournalUploadPassword() {
+            const password = document.getElementById('journal-upload-password').value;
+            if (password === DEFAULT_PASSWORD) {
+                document.getElementById('journal-upload-form').style.display = 'block';
+                document.getElementById('journal-upload-password').value = '';
+                alert('密码正确，可以上传流水账了');
+            } else {
+                alert('密码错误');
+            }
+        }
+        
+        // 上传流水账
+        function uploadJournal() {
+            const date = document.getElementById('journal-date').value;
+            const time = document.getElementById('journal-time').value;
+            const content = document.getElementById('journal-content').value;
+            const uploader = document.getElementById('journal-uploader').value;
+            
+            if (!date || !time || !content || !uploader) {
+                alert('请填写所有必填项');
+                return;
+            }
+            
+            if (content.length > 30) {
+                alert('流水账内容不能超过30个字');
+                return;
+            }
+            
+            const journal = {
+                id: Date.now(),
+                date: date,
+                time: time,
+                content: content,
+                uploader: uploader
+            };
+            
+            // 保存到localStorage
+            let journals = JSON.parse(localStorage.getItem('journals')) || [];
+            journals.push(journal);
+            localStorage.setItem('journals', JSON.stringify(journals));
+            
+            // 重置表单
+            document.getElementById('journal-date').value = '';
+            document.getElementById('journal-time').value = '';
+            document.getElementById('journal-content').value = '';
+            document.getElementById('journal-uploader').value = 'Bourbonbon';
+            document.getElementById('journal-upload-form').style.display = 'none';
+            
+            // 刷新显示
+            displayJournals();
+            alert('上传成功！');
+        }
+        
+        // 显示流水账
+        function displayJournals() {
+            const container = document.getElementById('journal-container');
+            const journals = JSON.parse(localStorage.getItem('journals')) || [];
+            
+            if (journals.length === 0) {
+                container.innerHTML = '<div class="empty-state">等待流水账上传</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            journals.forEach(journal => {
+                const journalItem = document.createElement('div');
+                journalItem.className = 'image-item';
+                journalItem.innerHTML = `
+                    <p>日期：${journal.date}</p>
+                    <p>时间：${journal.time}</p>
+                    <p>内容：${journal.content}</p>
+                    <p>上传人：${journal.uploader}</p>
+                `;
+                container.appendChild(journalItem);
+            });
+        }
+        
+        // 流水账数据访问密码验证
+        function checkJournalDataPassword() {
+            const password = document.getElementById('journal-data-password').value;
+            if (password === DEFAULT_PASSWORD) {
+                document.getElementById('journal-data-container').style.display = 'block';
+                displayJournalData();
+                document.getElementById('journal-data-password').value = '';
+            } else {
+                alert('密码错误');
+            }
+        }
+        
+        // 显示流水账数据（用于管理）
+        function displayJournalData() {
+            const container = document.getElementById('journal-data-container');
+            const journals = JSON.parse(localStorage.getItem('journals')) || [];
+            
+            if (journals.length === 0) {
+                container.innerHTML = '<div class="empty-state">暂无流水账数据</div>';
+                return;
+            }
+            
+            let html = '<h3>流水账数据管理</h3><table border="1" style="width:100%;"><tr><th>日期</th><th>时间</th><th>内容</th><th>上传人</th><th>操作</th></tr>';
+            
+            journals.forEach((journal, index) => {
+                html += `
+                    <tr>
+                        <td>${journal.date}</td>
+                        <td>${journal.time}</td>
+                        <td>${journal.content}</td>
+                        <td>${journal.uploader}</td>
+                        <td>
+                            <button onclick="editJournal(${index})">编辑</button>
+                            <button onclick="deleteJournal(${index})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            container.innerHTML = html;
+        }
+        
+        // 编辑流水账
+        function editJournal(index) {
+            const journals = JSON.parse(localStorage.getItem('journals')) || [];
+            const journal = journals[index];
+            
+            const newDate = prompt('请输入新的日期（格式：年月日）：', journal.date);
+            if (newDate === null) return;
+            
+            const newTime = prompt('请输入新的时间（格式：时分）：', journal.time);
+            if (newTime === null) return;
+            
+            const newContent = prompt('请输入新的内容（最多30个字）：', journal.content);
+            if (newContent === null) return;
+            
+            if (newContent.length > 30) {
+                alert('内容不能超过30个字');
+                return;
+            }
+            
+            const newUploader = prompt('请输入新的上传人：', journal.uploader);
+            if (newUploader === null) return;
+            
+            journal.date = newDate || journal.date;
+            journal.time = newTime || journal.time;
+            journal.content = newContent || journal.content;
+            journal.uploader = newUploader || journal.uploader;
+            
+            localStorage.setItem('journals', JSON.stringify(journals));
+            displayJournalData();
+            displayJournals();
+        }
+        
+        // 删除流水账
+        function deleteJournal(index) {
+            if (confirm('确定要删除这条流水账吗？')) {
+                const journals = JSON.parse(localStorage.getItem('journals')) || [];
+                journals.splice(index, 1);
+                localStorage.setItem('journals', JSON.stringify(journals));
+                displayJournalData();
+                displayJournals();
+            }
+        }
+        
+        // 发片上传密码验证
+        function checkSendUploadPassword() {
+            const password = document.getElementById('send-upload-password').value;
+            if (password === ALTERNATE_PASSWORD) {
+                document.getElementById('send-upload-form').style.display = 'block';
+                document.getElementById('send-upload-password').value = '';
+                alert('密码正确，可以上传发片了');
+            } else {
+                alert('密码错误，提示：000000');
+            }
+        }
+        
+        // 上传发片
+        function uploadSend() {
+            const id = document.getElementById('send-id').value;
+            const date = document.getElementById('send-date').value;
+            const address = document.getElementById('send-address').value;
+            const fileInput = document.getElementById('send-image');
+            const uploader = document.getElementById('send-uploader').value;
+            
+            if (!id || !date || !address || !uploader) {
+                alert('请填写所有必填项');
+                return;
+            }
+            
+            if (id.length > 9) {
+                alert('编号不能超过9个字');
+                return;
+            }
+            
+            if (!fileInput.files[0]) {
+                alert('请选择图片文件');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const sendData = {
+                    id: id,
+                    date: date,
+                    address: address,
+                    image: e.target.result,
+                    uploader: uploader
+                };
+                
+                // 保存到localStorage
+                let sendItems = JSON.parse(localStorage.getItem('sendItems')) || [];
+                sendItems.push(sendData);
+                localStorage.setItem('sendItems', JSON.stringify(sendItems));
+                
+                // 重置表单
+                document.getElementById('send-id').value = '';
+                document.getElementById('send-date').value = '';
+                document.getElementById('send-address').value = '';
+                document.getElementById('send-image').value = '';
+                document.getElementById('send-uploader').value = '';
+                document.getElementById('send-upload-form').style.display = 'none';
+                
+                // 刷新显示
+                displaySendData();
+                alert('上传成功！');
+            };
+            
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        
+        // 显示发片数据
+        function displaySendData() {
+            const container = document.getElementById('send-container');
+            const sendItems = JSON.parse(localStorage.getItem('sendItems')) || [];
+            
+            if (sendItems.length === 0) {
+                container.innerHTML = '<div class="empty-state">等待发片上传</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            sendItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'image-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="发片图片" class="image-preview" onclick="openImageModal('${item.image}')">
+                    <div>
+                        <p>编号：${item.id}</p>
+                        <p>上传日期：${item.date}</p>
+                        <p>上传地址：${item.address}</p>
+                        <p>上传人：${item.uploader}</p>
+                    </div>
+                `;
+                container.appendChild(itemElement);
+            });
+        }
+        
+        // 登记上传密码验证
+        function checkRegisterUploadPassword() {
+            const password = document.getElementById('register-upload-password').value;
+            if (password === ALTERNATE_PASSWORD) {
+                document.getElementById('register-upload-form').style.display = 'block';
+                document.getElementById('register-upload-password').value = '';
+                alert('密码正确，可以上传登记了');
+            } else {
+                alert('密码错误，提示：000000');
+            }
+        }
+        
+        // 上传登记
+        function uploadRegister() {
+            const id = document.getElementById('register-id').value;
+            const date = document.getElementById('register-date').value;
+            const address = document.getElementById('register-address').value;
+            const fileInput = document.getElementById('register-image');
+            const uploader = document.getElementById('register-uploader').value;
+            
+            if (!id || !date || !address || !uploader) {
+                alert('请填写所有必填项');
+                return;
+            }
+            
+            if (id.length > 9) {
+                alert('编号不能超过9个字');
+                return;
+            }
+            
+            if (!fileInput.files[0]) {
+                alert('请选择图片文件');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const registerData = {
+                    id: id,
+                    date: date,
+                    address: address,
+                    image: e.target.result,
+                    uploader: uploader
+                };
+                
+                // 保存到localStorage
+                let registerItems = JSON.parse(localStorage.getItem('registerItems')) || [];
+                registerItems.push(registerData);
+                localStorage.setItem('registerItems', JSON.stringify(registerItems));
+                
+                // 重置表单
+                document.getElementById('register-id').value = '';
+                document.getElementById('register-date').value = '';
+                document.getElementById('register-address').value = '';
+                document.getElementById('register-image').value = '';
+                document.getElementById('register-uploader').value = '';
+                document.getElementById('register-upload-form').style.display = 'none';
+                
+                // 刷新显示
+                displayRegisterData();
+                alert('上传成功！');
+            };
+            
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        
+        // 显示登记数据
+        function displayRegisterData() {
+            const container = document.getElementById('register-container');
+            const registerItems = JSON.parse(localStorage.getItem('registerItems')) || [];
+            
+            if (registerItems.length === 0) {
+                container.innerHTML = '<div class="empty-state">等待登记上传</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            registerItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'image-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="登记图片" class="image-preview" onclick="openImageModal('${item.image}')">
+                    <div>
+                        <p>编号：${item.id}</p>
+                        <p>上传日期：${item.date}</p>
+                        <p>上传地址：${item.address}</p>
+                        <p>上传人：${item.uploader}</p>
+                    </div>
+                `;
+                container.appendChild(itemElement);
+            });
+        }
+        
+        // 发收数据访问密码验证
+        function checkDataAccessPassword() {
+            const password = document.getElementById('data-access-password').value;
+            if (password === DEFAULT_PASSWORD) {
+                document.getElementById('data-access-container').style.display = 'block';
+                displaySendDataTable();
+                displayRegisterDataTable();
+                document.getElementById('data-access-password').value = '';
+            } else {
+                alert('密码错误');
+            }
+        }
+        
+        // 显示发片数据表格
+        function displaySendDataTable() {
+            const container = document.getElementById('send-data-table');
+            const sendItems = JSON.parse(localStorage.getItem('sendItems')) || [];
+            
+            if (sendItems.length === 0) {
+                container.innerHTML = '<div class="empty-state">暂无发片数据</div>';
+                return;
+            }
+            
+            let html = '<table border="1" style="width:100%;"><tr><th><input type="checkbox" id="select-all-send"></th><th>编号</th><th>上传日期</th><th>上传地址</th><th>图片</th><th>上传人</th><th>操作</th></tr>';
+            
+            sendItems.forEach((item, index) => {
+                html += `
+                    <tr>
+                        <td><input type="checkbox" class="send-checkbox" data-index="${index}"></td>
+                        <td>${item.id}</td>
+                        <td>${item.date}</td>
+                        <td>${item.address}</td>
+                        <td><img src="${item.image}" alt="发片图片" style="width:50px;cursor:pointer;" onclick="openImageModal('${item.image}')"></td>
+                        <td>${item.uploader}</td>
+                        <td>
+                            <button onclick="editSendItem(${index})">编辑</button>
+                            <button onclick="deleteSendItem(${index})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            container.innerHTML = html;
+            
+            // 全选功能
+            document.getElementById('select-all-send').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.send-checkbox');
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+        }
+        
+        // 显示登记数据表格
+        function displayRegisterDataTable() {
+            const container = document.getElementById('register-data-table');
+            const registerItems = JSON.parse(localStorage.getItem('registerItems')) || [];
+            
+            if (registerItems.length === 0) {
+                container.innerHTML = '<div class="empty-state">暂无登记数据</div>';
+                return;
+            }
+            
+            let html = '<table border="1" style="width:100%;"><tr><th><input type="checkbox" id="select-all-register"></th><th>编号</th><th>上传日期</th><th>上传地址</th><th>图片</th><th>上传人</th><th>操作</th></tr>';
+            
+            registerItems.forEach((item, index) => {
+                html += `
+                    <tr>
+                        <td><input type="checkbox" class="register-checkbox" data-index="${index}"></td>
+                        <td>${item.id}</td>
+                        <td>${item.date}</td>
+                        <td>${item.address}</td>
+                        <td><img src="${item.image}" alt="登记图片" style="width:50px;cursor:pointer;" onclick="openImageModal('${item.image}')"></td>
+                        <td>${item.uploader}</td>
+                        <td>
+                            <button onclick="editRegisterItem(${index})">编辑</button>
+                            <button onclick="deleteRegisterItem(${index})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            container.innerHTML = html;
+            
+            // 全选功能
+            document.getElementById('select-all-register').addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.register-checkbox');
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+        }
+        
+        // 编辑发片数据
+        function editSendItem(index) {
+            const sendItems = JSON.parse(localStorage.getItem('sendItems')) || [];
+            const item = sendItems[index];
+            
+            const newId = prompt('请输入新的编号（最多9个字）：', item.id);
+            if (newId === null) return;
+            
+            if (newId.length > 9) {
+                alert('编号不能超过9个字');
+                return;
+            }
+            
+            const newDate = prompt('请输入新的上传日期（格式：年月日 时分）：', item.date);
+            if (newDate === null) return;
+            
+            const newAddress = prompt('请输入新的上传地址（格式：省、市、区、街道）：', item.address);
+            if (newAddress === null) return;
+            
+            const newUploader = prompt('请输入新的上传人：', item.uploader);
+            if (newUploader === null) return;
+            
+            item.id = newId || item.id;
+            item.date = newDate || item.date;
+            item.address = newAddress || item.address;
+            item.uploader = newUploader || item.uploader;
+            
+            localStorage.setItem('sendItems', JSON.stringify(sendItems));
+            displaySendDataTable();
+            displaySendData();
+        }
+        
+        // 删除发片数据
+        function deleteSendItem(index) {
+            if (confirm('确定要删除这条发片数据吗？')) {
+                const sendItems = JSON.parse(localStorage.getItem('sendItems')) || [];
+                sendItems.splice(index, 1);
+                localStorage.setItem('sendItems', JSON.stringify(sendItems));
+                displaySendDataTable();
+                displaySendData();
+            }
+        }
+        
+        // 编辑登记数据
+        function editRegisterItem(index) {
+            const registerItems = JSON.parse(localStorage.getItem('registerItems')) || [];
+            const item = registerItems[index];
+            
+            const newId = prompt('请输入新的编号（最多9个字）：', item.id);
+            if (newId === null) return;
+            
+            if (newId.length > 9) {
+                alert('编号不能超过9个字');
+                return;
+            }
+            
+            const newDate = prompt('请输入新的上传日期（格式：年月日 时分）：', item.date);
+            if (newDate === null) return;
+            
+            const newAddress = prompt('请输入新的上传地址（格式：省、市、区、街道）：', item.address);
+            if (newAddress === null) return;
+            
+            const newUploader = prompt('请输入新的上传人：', item.uploader);
+            if (newUploader === null) return;
+            
+            item.id = newId || item.id;
+            item.date = newDate || item.date;
+            item.address = newAddress || item.address;
+            item.uploader = newUploader || item.uploader;
+            
+            localStorage.setItem('registerItems', JSON.stringify(registerItems));
+            displayRegisterDataTable();
+            displayRegisterData();
+        }
+        
+        // 删除登记数据
+        function deleteRegisterItem(index) {
+            if (confirm('确定要删除这条登记数据吗？')) {
+                const registerItems = JSON.parse(localStorage.getItem('registerItems')) || [];
+                registerItems.splice(index, 1);
+                localStorage.setItem('registerItems', JSON.stringify(registerItems));
+                displayRegisterDataTable();
+                displayRegisterData();
+            }
+        }
+        
+        // 搜索发片数据
+        function searchSendData() {
+            const searchTerm = document.getElementById('send-search').value.toLowerCase();
+            const sendItems = JSON.parse(localStorage.getItem('sendItems')) || [];
+            
+            if (!searchTerm) {
+                displaySendDataTable();
+                return;
+            }
+            
+            const filteredItems = sendItems.filter(item => 
+                item.id.toLowerCase().includes(searchTerm) ||
+                item.date.toLowerCase().includes(searchTerm) ||
+                item.address.toLowerCase().includes(searchTerm) ||
+                item.uploader.toLowerCase().includes(searchTerm)
+            );
+            
+            const container = document.getElementById('send-data-table');
+            
+            if (filteredItems.length === 0) {
+                container.innerHTML = '<div class="empty-state">未找到匹配的数据</div>';
+                return;
+            }
+            
+            let html = '<table border="1" style="width:100%;"><tr><th><input type="checkbox" id="select-all-send"></th><th>编号</th><th>上传日期</th><th>上传地址</th><th>图片</th><th>上传人</th><th>操作</th></tr>';
+            
+            filteredItems.forEach((item, index) => {
+                html += `
+                    <tr>
+                        <td><input type="checkbox" class="send-checkbox" data-index="${index}"></td>
+                        <td>${item.id}</td>
+                        <td>${item.date}</td>
+                        <td>${item.address}</td>
+                        <td><img src="${item.image}" alt="发片图片" style="width:50px;cursor:pointer;" onclick="openImageModal('${item.image}')"></td>
+                        <td>${item.uploader}</td>
+                        <td>
+                            <button onclick="editSendItem(${index})">编辑</button>
+                            <button onclick="deleteSendItem(${index})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            container.innerHTML = html;
+        }
+        
+        // 搜索登记数据
+        function searchRegisterData() {
+            const searchTerm = document.getElementById('register-search').value.toLowerCase();
+            const registerItems = JSON.parse(localStorage.getItem('registerItems')) || [];
+            
+            if (!searchTerm) {
+                displayRegisterDataTable();
+                return;
+            }
+            
+            const filteredItems = registerItems.filter(item => 
+                item.id.toLowerCase().includes(searchTerm) ||
+                item.date.toLowerCase().includes(searchTerm) ||
+                item.address.toLowerCase().includes(searchTerm) ||
+                item.uploader.toLowerCase().includes(searchTerm)
+            );
+            
+            const container = document.getElementById('register-data-table');
+            
+            if (filteredItems.length === 0) {
+                container.innerHTML = '<div class="empty-state">未找到匹配的数据</div>';
+                return;
+            }
+            
+            let html = '<table border="1" style="width:100%;"><tr><th><input type="checkbox" id="select-all-register"></th><th>编号</th><th>上传日期</th><th>上传地址</th><th>图片</th><th>上传人</th><th>操作</th></tr>';
+            
+            filteredItems.forEach((item, index) => {
+                html += `
+                    <tr>
+                        <td><input type="checkbox" class="register-checkbox" data-index="${index}"></td>
+                        <td>${item.id}</td>
+                        <td>${item.date}</td>
+                        <td>${item.address}</td>
+                        <td><img src="${item.image}" alt="登记图片" style="width:50px;cursor:pointer;" onclick="openImageModal('${item.image}')"></td>
+                        <td>${item.uploader}</td>
+                        <td>
+                            <button onclick="editRegisterItem(${index})">编辑</button>
+                            <button onclick="deleteRegisterItem(${index})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            container.innerHTML = html;
+        }
+        
+        // 批量删除发片数据
+        function batchDeleteSend() {
+            const checkboxes = document.querySelectorAll('.send-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert('请至少选择一条数据');
+                return;
+            }
+            
+            if (!confirm(`确定要删除选中的${checkboxes.length}条发片数据吗？`)) {
+                return;
+            }
+            
+            const sendItems = JSON.parse(localStorage.getItem('sendItems')) || [];
+            const indicesToDelete = [];
+            
+            checkboxes.forEach(checkbox => {
+                indicesToDelete.push(parseInt(checkbox.getAttribute('data-index')));
+            });
+            
+            // 从大到小排序，避免删除时索引变化
+            indicesToDelete.sort((a, b) => b - a);
+            
+            indicesToDelete.forEach(index => {
+                sendItems.splice(index, 1);
+            });
+            
+            localStorage.setItem('sendItems', JSON.stringify(sendItems));
+            displaySendDataTable();
+            displaySendData();
+        }
+        
+        // 批量删除登记数据
+        function batchDeleteRegister() {
+            const checkboxes = document.querySelectorAll('.register-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert('请至少选择一条数据');
+                return;
+            }
+            
+            if (!confirm(`确定要删除选中的${checkboxes.length}条登记数据吗？`)) {
+                return;
+            }
+            
+            const registerItems = JSON.parse(localStorage.getItem('registerItems')) || [];
+            const indicesToDelete = [];
+            
+            checkboxes.forEach(checkbox => {
+                indicesToDelete.push(parseInt(checkbox.getAttribute('data-index')));
+            });
+            
+            // 从大到小排序，避免删除时索引变化
+            indicesToDelete.sort((a, b) => b - a);
+            
+            indicesToDelete.forEach(index => {
+                registerItems.splice(index, 1);
+            });
+            
+            localStorage.setItem('registerItems', JSON.stringify(registerItems));
+            displayRegisterDataTable();
+            displayRegisterData();
+        }
+        
+        // 标志和背景设置密码验证
+        function checkSettingsPassword() {
+            const password = document.getElementById('settings-password').value;
+            if (password === DEFAULT_PASSWORD) {
+                document.getElementById('settings-container').style.display = 'block';
+                document.getElementById('settings-password').value = '';
+            } else {
+                alert('密码错误');
+            }
+        }
+        
+        // 上传LOGO
+        function uploadLogo() {
+            const fileInput = document.getElementById('logo-upload');
+            if (!fileInput.files[0]) {
+                alert('请选择图片文件');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem('logo', e.target.result);
+                loadLogo();
+                alert('LOGO上传成功！');
+            };
+            
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        
+        // 加载LOGO
+        function loadLogo() {
+            const logo = localStorage.getItem('logo');
+            if (logo) {
+                document.getElementById('site-logo').src = logo;
+            }
+        }
+        
+        // 删除LOGO
+        function deleteLogo() {
+            if (confirm('确定要删除LOGO吗？')) {
+                localStorage.removeItem('logo');
+                document.getElementById('site-logo').src = '';
+                alert('LOGO已删除');
+            }
+        }
+        
+        // 上传背景
+        function uploadBackground() {
+            const fileInput = document.getElementById('bg-upload');
+            if (!fileInput.files[0]) {
+                alert('请选择图片文件');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem('background', e.target.result);
+                loadBackground();
+                alert('背景上传成功！');
+            };
+            
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        
+        // 加载背景
+        function loadBackground() {
+            const background = localStorage.getItem('background');
+            if (background) {
+                document.body.style.backgroundImage = `url(${background})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundAttachment = 'fixed';
+            }
+        }
+        
+        // 删除背景
+        function deleteBackground() {
+            if (confirm('确定要删除背景吗？')) {
+                localStorage.removeItem('background');
+                document.body.style.backgroundImage = '';
+                alert('背景已删除');
+            }
+        }
+        
+        // 戳戳我图片上传密码验证
+        function checkPokeUploadPassword() {
+            const password = document.getElementById('poke-upload-password').value;
+            if (password === DEFAULT_PASSWORD) {
+                document.getElementById('poke-upload-container').style.display = 'block';
+                document.getElementById('poke-upload-password').value = '';
+            } else {
+                alert('密码错误');
+            }
+        }
+        
+        // 上传戳戳我图片
+        function uploadPokeImage() {
+            const fileInput = document.getElementById('poke-upload');
+            if (!fileInput.files[0]) {
+                alert('请选择图片文件');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem('pokeImage', e.target.result);
+                loadPokeImage();
+                alert('戳戳我图片上传成功！');
+            };
+            
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        
+        // 加载戳戳我图片
+        function loadPokeImage() {
+            const pokeImage = localStorage.getItem('pokeImage');
+            const container = document.getElementById('poke-container');
+            
+            if (pokeImage) {
+                container.innerHTML = `<img src="${pokeImage}" style="max-width:300px;cursor:pointer;" onclick="openImageModal('${pokeImage}')">`;
+            } else {
+                container.innerHTML = '<div class="empty-state">等待戳戳我图片上传</div>';
+            }
+        }
+        
+        // 删除戳戳我图片
+        function deletePokeImage() {
+            if (confirm('确定要删除戳戳我图片吗？')) {
+                localStorage.removeItem('pokeImage');
+                loadPokeImage();
+                alert('戳戳我图片已删除');
+            }
+        }
+        
+        // 打开图片放大模态框
+        function openImageModal(src) {
+            document.getElementById('modalImage').src = src;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+        
+        // 关闭图片放大模态框
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+        
+        // 点击模态框背景关闭
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
+    </script>
+</body>
+</html>
