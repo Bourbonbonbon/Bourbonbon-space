@@ -2028,16 +2028,6 @@
             
             // 初始化事件监听
             initEventListeners();
-            
-            // 添加一些示例数据（如果本地存储为空）
-            setTimeout(() => {
-                if (JSON.parse(localStorage.getItem("imageItems") || "[]").length === 0) {
-                    if (confirm("检测到这是首次使用，是否添加示例数据？")) {
-                        addSampleData();
-                    }
-                }
-            }, 500);
-        });
         
         // 添加示例数据
         function addSampleData() {
@@ -2050,14 +2040,6 @@
                     date: formatDate(new Date(Date.now() - 86400000 * 2)),
                     location: "浙江省、杭州市、西湖区、西湖边",
                     note: "清晨的西湖特别美"
-                },
-                {
-                    id: "2",
-                    image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                    title: "城市夜景",
-                    date: formatDate(new Date(Date.now() - 86400000)),
-                    location: "上海市、黄浦区、外滩",
-                    note: "外滩的夜景令人难忘"
                 }
             ];
             localStorage.setItem("imageItems", JSON.stringify(sampleImages));
@@ -2070,12 +2052,6 @@
                     title: "今天的工作记录",
                     date: formatDate(new Date(Date.now() - 86400000)),
                     content: "完成了项目的前端页面设计，代码已提交"
-                },
-                {
-                    id: "2",
-                    title: "周末出游计划",
-                    date: formatDate(new Date()),
-                    content: "计划去西湖边散步，然后看一场电影"
                 }
             ];
             localStorage.setItem("diaryItems", JSON.stringify(sampleDiaries));
@@ -2134,5 +2110,3 @@
     </script>
 </body>
 </html>
-            
-            //
