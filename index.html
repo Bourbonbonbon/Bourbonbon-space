@@ -3,1823 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>波本本的分享空间</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Microsoft YaHei', sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            min-height: 100vh;
-            transition: background-image 0.5s ease;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* 头部样式 */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #4a6fa5;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .logo:hover {
-            transform: scale(1.05);
-        }
-        
-        .site-title {
-            margin-left: 15px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #4a6fa5;
-        }
-        
-        /* 标签导航样式 */
-        .tab-nav {
-            display: flex;
-            background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .tab-btn {
-            flex: 1;
-            padding: 15px 10px;
-            border: none;
-            background-color: #f8f9fa;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-        
-        .tab-btn:hover {
-            background-color: #e9ecef;
-        }
-        
-        .tab-btn.active {
-            background-color: #4a6fa5;
-            color: white;
-            font-weight: bold;
-        }
-        
-        /* 标签内容区域 */
-        .tab-content {
-            display: none;
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            min-height: 500px;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .tab-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .tab-title {
-            font-size: 22px;
-            color: #4a6fa5;
-        }
-        
-        .add-btn {
-            background-color: #4a6fa5;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        .add-btn:hover {
-            background-color: #3a5a8a;
-        }
-        
-        /* 数据展示区域 */
-        .data-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .data-item {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-        }
-        
-        .data-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .item-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        
-        .item-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #333;
-        }
-        
-        .item-info {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 5px;
-        }
-        
-        .item-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
-        
-        .edit-btn, .delete-btn {
-            padding: 5px 10px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .edit-btn {
-            background-color: #ffc107;
-            color: #333;
-        }
-        
-        .delete-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-        
-        /* 模态框样式 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background-color: white;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 10px;
-            padding: 25px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .modal-title {
-            font-size: 20px;
-            color: #4a6fa5;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #999;
-        }
-        
-        .close-modal:hover {
-            color: #333;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        .form-input, .form-textarea, .form-file {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .form-row .form-group {
-            flex: 1;
-        }
-        
-        .char-count {
-            text-align: right;
-            font-size: 12px;
-            color: #999;
-            margin-top: 3px;
-        }
-        
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .submit-btn, .cancel-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .submit-btn {
-            background-color: #4a6fa5;
-            color: white;
-        }
-        
-        .cancel-btn {
-            background-color: #6c757d;
-            color: white;
-        }
-        
-        .image-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .preview-img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        
-        /* 图片放大查看 */
-        .image-viewer {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .image-viewer.active {
-            display: flex;
-        }
-        
-        .viewer-img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-        }
-        
-        .close-viewer {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        
-        /* 设置页面样式 */
-        .settings-container {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        
-        .setting-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #4a6fa5;
-        }
-        
-        .setting-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .setting-label {
-            width: 150px;
-            font-weight: bold;
-        }
-        
-        .setting-value {
-            flex: 1;
-        }
-        
-        .setting-preview {
-            margin-top: 15px;
-            text-align: center;
-        }
-        
-        .preview-logo {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            cursor: pointer;
-        }
-        
-        .preview-bg {
-            width: 200px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            cursor: pointer;
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .tab-nav {
-                flex-wrap: wrap;
-            }
-            
-            .tab-btn {
-                flex: 1 0 50%;
-            }
-            
-            .data-container {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
+    <title>里昂星储—查询系统</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CBCB',
+                        success: '#52C41A',
+                        warning: '#FAAD14',
+                        danger: '#FF4D4F',
+                        info: '#1890FF',
+                        dark: '#1F2937',
+                        light: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
             }
         }
-        
-        @media (max-width: 480px) {
-            .tab-btn {
-                flex: 1 0 100%;
-                padding: 12px 5px;
-                font-size: 14px;
+    </script>
+    <!-- 自定义样式 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
             }
-            
-            .data-container {
-                grid-template-columns: 1fr;
+            .tab-active {
+                @apply border-b-2 border-primary text-primary font-medium;
             }
-            
-            .site-title {
-                font-size: 22px;
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors;
             }
-        }
-        
-        /* 空状态提示 */
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: #999;
-        }
-        
-        .empty-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-        
-        .empty-text {
-            font-size: 18px;
+            .btn-danger {
+                @apply bg-danger text-white px-4 py-2 rounded-md hover:bg-danger/90 transition-colors;
+            }
+            .btn-secondary {
+                @apply bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors;
+            }
+            .input-field {
+                @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary;
+            }
+            .modal-backdrop {
+                @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
+            }
+            .modal-content {
+                @apply bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto;
+            }
+            .image-grid {
+                @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+            }
+            .image-card {
+                @apply border border-gray-200 rounded-lg overflow-hidden shadow-md transition-shadow hover:shadow-lg;
+            }
+            .table-responsive {
+                @apply overflow-x-auto;
+            }
+            .data-table {
+                @apply w-full border-collapse;
+            }
+            .data-table th,
+            .data-table td {
+                @apply border border-gray-300 p-2 text-center;
+            }
+            .data-table th {
+                @apply bg-gray-50 font-medium;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <!-- 头部和LOGO -->
-        <header>
-            <div class="logo-container">
-                <img id="site-logo" class="logo" src="" alt="站点LOGO">
-                <h1 class="site-title">波本本的分享空间</h1>
+<body class="min-h-screen flex flex-col bg-gray-50 relative" id="app-body">
+    <!-- 头部 -->
+    <header class="bg-white shadow-sm sticky top-0 z-30">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- 左侧LOGO -->
+            <div class="flex items-center space-x-3">
+                <img id="site-logo" src="https://via.placeholder.com/50" alt="里昂星储" class="h-10 w-auto cursor-pointer hover:opacity-90 transition-opacity">
+                <h1 class="text-xl font-bold text-dark">里昂星储—查询系统</h1>
             </div>
-        </header>
-        
-        <!-- 标签导航 -->
-        <nav class="tab-nav">
-            <button class="tab-btn active" data-tab="image-share">图片分享</button>
-            <button class="tab-btn" data-tab="journal">流水账</button>
-            <button class="tab-btn" data-tab="film-release">发片</button>
-            <button class="tab-btn" data-tab="registration">登记</button>
-            <button class="tab-btn" data-tab="settings">设置</button>
-            <button class="tab-btn" data-tab="poke-me">戳戳我</button>
-        </nav>
-        
-        <!-- 图片分享标签页 -->
-        <section id="image-share" class="tab-content active">
-            <div class="tab-header">
-                <h2 class="tab-title">图片分享</h2>
-                <button class="add-btn" data-type="image-share">上传图片</button>
-            </div>
-            <div id="image-share-container" class="data-container">
-                <!-- 图片分享数据将动态加载到这里 -->
-            </div>
-        </section>
-        
-        <!-- 流水账标签页 -->
-        <section id="journal" class="tab-content">
-            <div class="tab-header">
-                <h2 class="tab-title">流水账</h2>
-                <button class="add-btn" data-type="journal">添加流水账</button>
-            </div>
-            <div id="journal-container" class="data-container">
-                <!-- 流水账数据将动态加载到这里 -->
-            </div>
-        </section>
-        
-        <!-- 发片标签页 -->
-        <section id="film-release" class="tab-content">
-            <div class="tab-header">
-                <h2 class="tab-title">发片</h2>
-                <button class="add-btn" data-type="film-release">添加发片记录</button>
-            </div>
-            <div id="film-release-container" class="data-container">
-                <!-- 发片数据将动态加载到这里 -->
-            </div>
-        </section>
-        
-        <!-- 登记标签页 -->
-        <section id="registration" class="tab-content">
-            <div class="tab-header">
-                <h2 class="tab-title">登记</h2>
-                <button class="add-btn" data-type="registration">添加登记记录</button>
-            </div>
-            <div id="registration-container" class="data-container">
-                <!-- 登记数据将动态加载到这里 -->
-            </div>
-        </section>
-        
-        <!-- 设置标签页 -->
-        <section id="settings" class="tab-content">
-            <div class="tab-header">
-                <h2 class="tab-title">设置</h2>
-            </div>
-            <div class="settings-container">
-                <div class="setting-section">
-                    <h3 class="section-title">LOGO设置</h3>
-                    <div class="setting-item">
-                        <div class="setting-label">当前LOGO:</div>
-                        <div class="setting-value">
-                            <button class="add-btn" data-type="logo-upload">上传/修改LOGO</button>
-                            <button class="delete-btn" id="delete-logo-btn">删除LOGO</button>
-                        </div>
-                    </div>
-                    <div class="setting-preview">
-                        <p>LOGO预览 (75px × 75px):</p>
-                        <img id="logo-preview" class="preview-logo" src="" alt="LOGO预览">
-                    </div>
-                </div>
-                
-                <div class="setting-section">
-                    <h3 class="section-title">背景设置</h3>
-                    <div class="setting-item">
-                        <div class="setting-label">当前背景:</div>
-                        <div class="setting-value">
-                            <button class="add-btn" data-type="background-upload">上传/修改背景</button>
-                            <button class="delete-btn" id="delete-bg-btn">删除背景</button>
-                        </div>
-                    </div>
-                    <div class="setting-preview">
-                        <p>背景预览:</p>
-                        <img id="bg-preview" class="preview-bg" src="" alt="背景预览">
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- 戳戳我标签页 -->
-        <section id="poke-me" class="tab-content">
-            <div class="tab-header">
-                <h2 class="tab-title">戳戳我</h2>
-                <button class="add-btn" data-type="poke-me">上传图片</button>
-            </div>
-            <div id="poke-me-container" class="data-container">
-                <!-- 戳戳我数据将动态加载到这里 -->
-            </div>
-        </section>
-    </div>
-    
-    <!-- 图片放大查看器 -->
-    <div id="image-viewer" class="image-viewer">
-        <button class="close-viewer">&times;</button>
-        <img class="viewer-img" src="" alt="放大图片">
-    </div>
-    
-    <!-- 通用模态框 -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">上传数据</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <form id="data-form">
-                <!-- 表单内容将动态加载 -->
-            </form>
         </div>
-    </div>
-    
-    <!-- 密码验证模态框 -->
-    <div id="password-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">密码验证</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div style="padding: 20px;">
-                <p>请输入管理密码以继续操作：</p>
-                <input type="password" id="password-input" class="form-input" placeholder="请输入密码">
-                <div class="form-actions">
-                    <button type="button" id="submit-password" class="submit-btn">确认</button>
-                    <button type="button" id="cancel-password" class="cancel-btn">取消</button>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+        <!-- 标签页导航 -->
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="flex space-x-8">
+                <button id="tab-announcement" class="tab-btn tab-active py-3 px-1" data-tab="announcement">
+                    <i class="fa fa-bullhorn mr-2"></i>公告
+                </button>
+                <button id="tab-network" class="tab-btn py-3 px-1" data-tab="network">
+                    <i class="fa fa-map-marker mr-2"></i>网点清单
+                </button>
+                <button id="tab-tariff" class="tab-btn py-3 px-1" data-tab="tariff">
+                    <i class="fa fa-list-alt mr-2"></i>资费清单
+                </button>
+                <button id="tab-cabinet" class="tab-btn py-3 px-1" data-tab="cabinet">
+                    <i class="fa fa-cubes mr-2"></i>在柜信息
+                </button>
+                <button id="tab-settings" class="tab-btn py-3 px-1" data-tab="settings">
+                    <i class="fa fa-cog mr-2"></i>设置
+                </button>
+                <button id="tab-click" class="tab-btn py-3 px-1" data-tab="click">
+                    <i class="fa fa-hand-pointer-o mr-2"></i>戳戳我
+                </button>
+            </nav>
+        </div>
+
+        <!-- 标签页内容 -->
+        <div class="tab-content">
+            <!-- 公告页面 -->
+            <div id="announcement-content" class="tab-pane">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold mb-4">公告信息</h2>
+                    <div id="announcement-display" class="image-grid mb-6">
+                        <div class="text-center py-12 text-gray-500">
+                            <i class="fa fa-info-circle text-4xl mb-3"></i>
+                            <p>等待数据上传</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button id="add-announcement" class="btn-primary">
+                            <i class="fa fa-plus mr-1"></i>上传公告
+                        </button>
+                    </div>
                 </div>
+            </div>
+
+            <!-- 网点清单页面 -->
+            <div id="network-content" class="tab-pane hidden">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold mb-4">网点清单</h2>
+                    <div id="network-display" class="image-grid mb-6">
+                        <div class="text-center py-12 text-gray-500">
+                            <i class="fa fa-info-circle text-4xl mb-3"></i>
+                            <p>等待数据上传</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button id="add-network" class="btn-primary">
+                            <i class="fa fa-plus mr-1"></i>上传网点清单
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 资费清单页面 -->
+            <div id="tariff-content" class="tab-pane hidden">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold mb-4">资费清单</h2>
+                    <div id="tariff-display" class="image-grid mb-6">
+                        <div class="text-center py-12 text-gray-500">
+                            <i class="fa fa-info-circle text-4xl mb-3"></i>
+                            <p>等待数据上传</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button id="add-tariff" class="btn-primary">
+                            <i class="fa fa-plus mr-1"></i>上传资费清单
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 在柜信息页面 -->
+            <div id="cabinet-content" class="tab-pane hidden">
+                <div class="bg-white rounded-lg shadow p-6 mb-6">
+                    <h2 class="text-lg font-semibold mb-4">在柜信息</h2>
+                    <div class="table-responsive mb-6">
+                        <table id="cabinet-display" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>区域</th>
+                                    <th>大区</th>
+                                    <th>编号</th>
+                                    <th>类型</th>
+                                    <th>存放位置</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7" class="py-12 text-gray-500">
+                                        <i class="fa fa-info-circle text-2xl mb-2"></i>
+                                        <p>等待数据上传</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center">
+                        <button id="add-cabinet" class="btn-primary">
+                            <i class="fa fa-plus mr-1"></i>上传在柜信息
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold mb-4">取件人信息</h2>
+                    <div class="table-responsive mb-6">
+                        <table id="recipient-display" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>待取件编号</th>
+                                    <th>取件人姓名</th>
+                                    <th>联系电话</th>
+                                    <th>身份证明号码后四位</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" class="py-12 text-gray-500">
+                                        <i class="fa fa-info-circle text-2xl mb-2"></i>
+                                        <p>等待数据上传</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center">
+                        <button id="add-recipient" class="btn-primary">
+                            <i class="fa fa-plus mr-1"></i>上传取件人信息
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设置页面 -->
+            <div id="settings-content" class="tab-pane hidden">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold mb-6">系统设置</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- LOGO设置 -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h3 class="text-md font-medium mb-3">LOGO设置</h3>
+                            <div class="text-center mb-4">
+                                <img id="logo-preview" src="https://via.placeholder.com/150" alt="Logo预览" class="mx-auto h-32 w-auto cursor-pointer border border-gray-200 rounded-lg p-1 hover:opacity-90 transition-opacity">
+                            </div>
+                            <div class="space-y-2">
+                                <button id="change-logo" class="btn-primary w-full">
+                                    <i class="fa fa-upload mr-1"></i>更换LOGO
+                                </button>
+                                <button id="delete-logo" class="btn-danger w-full">
+                                    <i class="fa fa-trash mr-1"></i>删除LOGO
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 背景设置 -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h3 class="text-md font-medium mb-3">背景设置</h3>
+                            <div class="text-center mb-4">
+                                <img id="bg-preview" src="https://via.placeholder.com/150" alt="背景预览" class="mx-auto h-32 w-auto cursor-pointer border border-gray-200 rounded-lg p-1 hover:opacity-90 transition-opacity">
+                            </div>
+                            <div class="space-y-2">
+                                <button id="change-bg" class="btn-primary w-full">
+                                    <i class="fa fa-upload mr-1"></i>更换背景
+                                </button>
+                                <button id="delete-bg" class="btn-danger w-full">
+                                    <i class="fa fa-trash mr-1"></i>删除背景
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 戳戳我设置 -->
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h3 class="text-md font-medium mb-3">戳戳我设置</h3>
+                            <div class="text-center mb-4">
+                                <img id="click-preview" src="https://via.placeholder.com/150" alt="戳戳我预览" class="mx-auto h-32 w-auto cursor-pointer border border-gray-200 rounded-lg p-1 hover:opacity-90 transition-opacity">
+                            </div>
+                            <div class="space-y-2">
+                                <button id="change-click" class="btn-primary w-full">
+                                    <i class="fa fa-upload mr-1"></i>更换图片
+                                </button>
+                                <button id="delete-click" class="btn-danger w-full">
+                                    <i class="fa fa-trash mr-1"></i>删除图片
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 戳戳我页面 -->
+            <div id="click-content" class="tab-pane hidden">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold mb-4">戳戳我</h2>
+                    <div id="click-display" class="flex justify-center items-center mb-6">
+                        <div class="text-center py-12 text-gray-500">
+                            <i class="fa fa-info-circle text-4xl mb-3"></i>
+                            <p>等待数据上传</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button id="add-click" class="btn-primary">
+                            <i class="fa fa-plus mr-1"></i>上传戳戳我图片
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 模态框 -->
+    <div id="modal" class="modal-backdrop hidden">
+        <div class="modal-content p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-title" class="text-lg font-semibold"></h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-700 text-xl">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div id="modal-body">
+                <!-- 模态框内容将动态生成 -->
+            </div>
+            <div class="flex justify-end space-x-3 mt-6">
+                <button id="cancel-modal" class="btn-secondary">取消</button>
+                <button id="submit-modal" class="btn-primary">确定</button>
             </div>
         </div>
     </div>
 
+    <!-- 图片查看器 -->
+    <div id="image-viewer" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center">
+        <button id="close-viewer" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300">
+            <i class="fa fa-times"></i>
+        </button>
+        <img id="viewer-image" src="" alt="预览图片" class="max-h-[90vh] max-w-[90vw]">
+    </div>
+
+    <!-- 密码验证模态框 -->
+    <div id="password-modal" class="modal-backdrop hidden">
+        <div class="modal-content p-6 max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">身份验证</h3>
+                <button id="close-password" class="text-gray-500 hover:text-gray-700 text-xl">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="text-center mb-4">
+                <i class="fa fa-lock text-4xl text-primary mb-3"></i>
+                <p id="password-prompt" class="mb-4">请输入管理密码</p>
+                <input type="password" id="password-input" class="input-field" placeholder="请输入密码">
+                <p id="password-error" class="text-danger text-sm mt-2 hidden">密码错误，请重试</p>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button id="cancel-password" class="btn-secondary">取消</button>
+                <button id="submit-password" class="btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
     <script>
-        // 全局变量
-        const PASSWORD = "740302";
-        let currentTab = "image-share";
-        let currentDataType = "";
-        let currentEditId = null;
-        let passwordVerified = false;
-        
-        // 数据存储键名
-        const STORAGE_KEYS = {
-            IMAGE_SHARE: "bobonbon_image_share",
-            JOURNAL: "bobonbon_journal",
-            FILM_RELEASE: "bobonbon_film_release",
-            REGISTRATION: "bobonbon_registration",
-            POKE_ME: "bobonbon_poke_me",
-            SETTINGS: "bobonbon_settings",
-            ACTIVE_TAB: "bobonbon_active_tab"
-        };
-        
-        // 页面加载时初始化
+        // 初始化应用
         document.addEventListener('DOMContentLoaded', function() {
-            // 恢复上次激活的标签页
-            const savedTab = localStorage.getItem(STORAGE_KEYS.ACTIVE_TAB);
-            if (savedTab) {
-                switchTab(savedTab);
-            }
+            // 从localStorage恢复上次选中的标签
+            const lastActiveTab = localStorage.getItem('activeTab') || 'announcement';
+            showTab(lastActiveTab);
             
-            // 加载设置
+            // 恢复自定义设置
             loadSettings();
             
-            // 加载各标签页数据
+            // 标签页切换
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    showTab(tabId);
+                    localStorage.setItem('activeTab', tabId);
+                });
+            });
+
+            // 加载数据
             loadAllData();
-            
-            // 绑定事件监听器
-            bindEvents();
         });
-        
-        // 切换标签页
-        function switchTab(tabId) {
-            // 更新当前标签
-            currentTab = tabId;
-            
-            // 保存当前标签到localStorage
-            localStorage.setItem(STORAGE_KEYS.ACTIVE_TAB, tabId);
-            
-            // 更新标签按钮状态
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.tab === tabId) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            // 更新内容区域显示
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-                if (content.id === tabId) {
-                    content.classList.add('active');
-                }
-            });
-        }
-        
-        // 绑定事件
-        function bindEvents() {
-            // 标签切换
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    switchTab(this.dataset.tab);
-                });
-            });
-            
-            // 添加按钮
-            document.querySelectorAll('.add-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const dataType = this.dataset.type;
-                    openPasswordModal(dataType);
-                });
-            });
-            
-            // 删除LOGO按钮
-            document.getElementById('delete-logo-btn').addEventListener('click', function() {
-                if (confirm('确定要删除LOGO吗？')) {
-                    deleteLogo();
-                }
-            });
-            
-            // 删除背景按钮
-            document.getElementById('delete-bg-btn').addEventListener('click', function() {
-                if (confirm('确定要删除背景图片吗？')) {
-                    deleteBackground();
-                }
-            });
-            
-            // 关闭模态框
-            document.querySelectorAll('.close-modal').forEach(btn => {
-                btn.addEventListener('click', closeModal);
-            });
-            
-            // 关闭图片查看器
-            document.querySelector('.close-viewer').addEventListener('click', closeImageViewer);
-            
-            // 密码验证
-            document.getElementById('submit-password').addEventListener('click', verifyPassword);
-            document.getElementById('cancel-password').addEventListener('click', closePasswordModal);
-            
-            // 点击模态框外部关闭
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        if (this.id === 'password-modal') {
-                            closePasswordModal();
-                        } else {
-                            closeModal();
-                        }
-                    }
-                });
-            });
-        }
-        
-        // 打开密码验证模态框
-        function openPasswordModal(dataType) {
-            currentDataType = dataType;
-            passwordVerified = false;
-            document.getElementById('password-input').value = '';
-            document.getElementById('password-modal').classList.add('active');
-        }
-        
-        // 关闭密码验证模态框
-        function closePasswordModal() {
-            document.getElementById('password-modal').classList.remove('active');
-            currentDataType = '';
-        }
-        
-        // 验证密码
-        function verifyPassword() {
-            const input = document.getElementById('password-input').value;
-            if (input === PASSWORD) {
-                passwordVerified = true;
-                closePasswordModal();
-                openDataModal();
-            } else {
-                alert('密码错误，请重新输入！');
-                document.getElementById('password-input').value = '';
-            }
-        }
-        
-        // 打开数据模态框
-        function openDataModal(editId = null) {
-            currentEditId = editId;
-            
-            // 根据数据类型创建表单
-            const form = document.getElementById('data-form');
-            form.innerHTML = '';
-            
-            let formHTML = '';
-            
-            switch(currentDataType) {
-                case 'image-share':
-                    formHTML = createImageShareForm(editId);
-                    break;
-                case 'journal':
-                    formHTML = createJournalForm(editId);
-                    break;
-                case 'film-release':
-                    formHTML = createFilmReleaseForm(editId);
-                    break;
-                case 'registration':
-                    formHTML = createRegistrationForm(editId);
-                    break;
-                case 'poke-me':
-                    formHTML = createPokeMeForm(editId);
-                    break;
-                case 'logo-upload':
-                    formHTML = createLogoUploadForm();
-                    break;
-                case 'background-upload':
-                    formHTML = createBackgroundUploadForm();
-                    break;
-            }
-            
-            form.innerHTML = formHTML;
-            
-            // 绑定表单事件
-            bindFormEvents();
-            
-            // 显示模态框
-            document.getElementById('modal').classList.add('active');
-        }
-        
-        // 关闭数据模态框
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-            currentEditId = null;
-        }
-        
-        // 创建图片分享表单
-        function createImageShareForm(editId = null) {
-            let formData = {};
-            if (editId) {
-                const data = getData(STORAGE_KEYS.IMAGE_SHARE);
-                formData = data.find(item => item.id === editId) || {};
-            }
-            
-            return `
-                <div class="form-group">
-                    <label class="form-label">图片上传 (最多5张，支持JPG、JPEG、PNG)</label>
-                    <input type="file" id="images" class="form-file" accept=".jpg,.jpeg,.png" multiple>
-                    <div id="image-preview" class="image-preview"></div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">标题</label>
-                    <input type="text" id="title" class="form-input" value="${formData.title || ''}" placeholder="请输入标题">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">上传地点</label>
-                    <input type="text" id="location" class="form-input" value="${formData.location || ''}" placeholder="格式：省、市、区、街道">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">备注 (最多30字)</label>
-                    <textarea id="notes" class="form-textarea" placeholder="请输入备注" maxlength="30">${formData.notes || ''}</textarea>
-                    <div class="char-count"><span id="notes-count">0</span>/30</div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="submit-form" class="submit-btn">${editId ? '更新' : '提交'}</button>
-                    <button type="button" id="cancel-form" class="cancel-btn">取消</button>
-                </div>
-            `;
-        }
-        
-        // 创建流水账表单
-        function createJournalForm(editId = null) {
-            let formData = {};
-            if (editId) {
-                const data = getData(STORAGE_KEYS.JOURNAL);
-                formData = data.find(item => item.id === editId) || {};
-            }
-            
-            return `
-                <div class="form-group">
-                    <label class="form-label">标题</label>
-                    <input type="text" id="title" class="form-input" value="${formData.title || ''}" placeholder="请输入标题">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">内容 (最多30字)</label>
-                    <textarea id="content" class="form-textarea" placeholder="请输入流水账内容" maxlength="30">${formData.content || ''}</textarea>
-                    <div class="char-count"><span id="content-count">0</span>/30</div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="submit-form" class="submit-btn">${editId ? '更新' : '提交'}</button>
-                    <button type="button" id="cancel-form" class="cancel-btn">取消</button>
-                </div>
-            `;
-        }
-        
-        // 创建发片表单
-        function createFilmReleaseForm(editId = null) {
-            let formData = {};
-            if (editId) {
-                const data = getData(STORAGE_KEYS.FILM_RELEASE);
-                formData = data.find(item => item.id === editId) || {};
-            }
-            
-            // 生成编号
-            let number = '';
-            if (!editId) {
-                const today = new Date();
-                const dateStr = today.getFullYear() + 
-                              String(today.getMonth() + 1).padStart(2, '0') + 
-                              String(today.getDate()).padStart(2, '0');
-                
-                // 获取当天已有记录数
-                const existingData = getData(STORAGE_KEYS.FILM_RELEASE);
-                const todayRecords = existingData.filter(item => {
-                    const itemDate = item.uploadDate ? item.uploadDate.substring(0, 8) : '';
-                    return itemDate === dateStr;
-                });
-                
-                const sequence = String(todayRecords.length + 1).padStart(3, '0');
-                number = dateStr + sequence;
-            }
-            
-            return `
-                <div class="form-group">
-                    <label class="form-label">编号</label>
-                    <input type="text" id="number" class="form-input" value="${formData.number || number}" readonly>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">上传地址</label>
-                    <input type="text" id="address" class="form-input" value="${formData.address || ''}" placeholder="格式：省、市、区、街道">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">图片上传 (支持JPG、JPEG、PNG)</label>
-                    <input type="file" id="image" class="form-file" accept=".jpg,.jpeg,.png">
-                    <div id="image-preview" class="image-preview"></div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="submit-form" class="submit-btn">${editId ? '更新' : '提交'}</button>
-                    <button type="button" id="cancel-form" class="cancel-btn">取消</button>
-                </div>
-            `;
-        }
-        
-        // 创建登记表单
-        function createRegistrationForm(editId = null) {
-            let formData = {};
-            if (editId) {
-                const data = getData(STORAGE_KEYS.REGISTRATION);
-                formData = data.find(item => item.id === editId) || {};
-            }
-            
-            return `
-                <div class="form-group">
-                    <label class="form-label">编号</label>
-                    <input type="text" id="number" class="form-input" value="${formData.number || ''}" placeholder="请输入编号">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">发片日期</label>
-                    <input type="date" id="film-date" class="form-input" value="${formData.filmDate || ''}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">上传地址</label>
-                    <input type="text" id="address" class="form-input" value="${formData.address || ''}" placeholder="格式：省、市、区、街道">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">图片上传 (支持JPG、JPEG、PNG)</label>
-                    <input type="file" id="image" class="form-file" accept=".jpg,.jpeg,.png">
-                    <div id="image-preview" class="image-preview"></div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="submit-form" class="submit-btn">${editId ? '更新' : '提交'}</button>
-                    <button type="button" id="cancel-form" class="cancel-btn">取消</button>
-                </div>
-            `;
-        }
-        
-        // 创建戳戳我表单
-        function createPokeMeForm(editId = null) {
-            let formData = {};
-            if (editId) {
-                const data = getData(STORAGE_KEYS.POKE_ME);
-                formData = data.find(item => item.id === editId) || {};
-            }
-            
-            return `
-                <div class="form-group">
-                    <label class="form-label">图片上传 (支持JPG、JPEG、PNG)</label>
-                    <input type="file" id="image" class="form-file" accept=".jpg,.jpeg,.png">
-                    <div id="image-preview" class="image-preview"></div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="submit-form" class="submit-btn">${editId ? '更新' : '提交'}</button>
-                    <button type="button" id="cancel-form" class="cancel-btn">取消</button>
-                </div>
-            `;
-        }
-        
-        // 创建LOGO上传表单
-        function createLogoUploadForm() {
-            return `
-                <div class="form-group">
-                    <label class="form-label">LOGO上传 (支持JPG、JPEG、PNG，尺寸建议75px×75px)</label>
-                    <input type="file" id="logo-file" class="form-file" accept=".jpg,.jpeg,.png">
-                    <div id="logo-preview-form" class="image-preview"></div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="submit-form" class="submit-btn">上传</button>
-                    <button type="button" id="cancel-form" class="cancel-btn">取消</button>
-                </div>
-            `;
-        }
-        
-        // 创建背景上传表单
-        function createBackgroundUploadForm() {
-            return `
-                <div class="form-group">
-                    <label class="form-label">背景图片上传 (支持JPG、JPEG、PNG)</label>
-                    <input type="file" id="bg-file" class="form-file" accept=".jpg,.jpeg,.png">
-                    <div id="bg-preview-form" class="image-preview"></div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="submit-form" class="submit-btn">上传</button>
-                    <button type="button" id="cancel-form" class="cancel-btn">取消</button>
-                </div>
-            `;
-        }
-        
-        // 绑定表单事件
-        function bindFormEvents() {
-            // 提交表单
-            document.getElementById('submit-form').addEventListener('click', submitForm);
-            
-            // 取消表单
-            document.getElementById('cancel-form').addEventListener('click', closeModal);
-            
-            // 字符计数
-            const notesTextarea = document.getElementById('notes');
-            const contentTextarea = document.getElementById('content');
-            
-            if (notesTextarea) {
-                notesTextarea.addEventListener('input', function() {
-                    document.getElementById('notes-count').textContent = this.value.length;
-                });
-                document.getElementById('notes-count').textContent = notesTextarea.value.length;
-            }
-            
-            if (contentTextarea) {
-                contentTextarea.addEventListener('input', function() {
-                    document.getElementById('content-count').textContent = this.value.length;
-                });
-                document.getElementById('content-count').textContent = contentTextarea.value.length;
-            }
-            
-            // 图片预览
-            const imageInput = document.getElementById('images');
-            const singleImageInput = document.getElementById('image');
-            const logoInput = document.getElementById('logo-file');
-            const bgInput = document.getElementById('bg-file');
-            
-            if (imageInput) {
-                imageInput.addEventListener('change', function() {
-                    previewImages(this, 'image-preview');
-                });
-            }
-            
-            if (singleImageInput) {
-                singleImageInput.addEventListener('change', function() {
-                    previewSingleImage(this, 'image-preview');
-                });
-            }
-            
-            if (logoInput) {
-                logoInput.addEventListener('change', function() {
-                    previewSingleImage(this, 'logo-preview-form');
-                });
-            }
-            
-            if (bgInput) {
-                bgInput.addEventListener('change', function() {
-                    previewSingleImage(this, 'bg-preview-form');
-                });
-            }
-        }
-        
-        // 预览多张图片
-        function previewImages(input, previewId) {
-            const previewContainer = document.getElementById(previewId);
-            previewContainer.innerHTML = '';
-            
-            if (input.files.length > 5) {
-                alert('最多只能上传5张图片');
-                input.value = '';
-                return;
-            }
-            
-            for (let i = 0; i < input.files.length; i++) {
-                const file = input.files[i];
-                if (!file.type.match('image/jpeg') && !file.type.match('image/jpg') && !file.type.match('image/png')) {
-                    alert('只支持JPG、JPEG、PNG格式的图片');
-                    input.value = '';
-                    previewContainer.innerHTML = '';
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'preview-img';
-                    previewContainer.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        
-        // 预览单张图片
-        function previewSingleImage(input, previewId) {
-            const previewContainer = document.getElementById(previewId);
-            previewContainer.innerHTML = '';
-            
-            if (input.files.length === 0) return;
-            
-            const file = input.files[0];
-            if (!file.type.match('image/jpeg') && !file.type.match('image/jpg') && !file.type.match('image/png')) {
-                alert('只支持JPG、JPEG、PNG格式的图片');
-                input.value = '';
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'preview-img';
-                previewContainer.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        // 提交表单
-        function submitForm() {
-            // 获取当前时间
-            const now = new Date();
-            const uploadDate = now.getFullYear() + '年' + 
-                              String(now.getMonth() + 1).padStart(2, '0') + '月' + 
-                              String(now.getDate()).padStart(2, '0') + '日 ' + 
-                              String(now.getHours()).padStart(2, '0') + ':' + 
-                              String(now.getMinutes()).padStart(2, '0');
-            
-            let data = {};
-            let storageKey = '';
-            
-            switch(currentDataType) {
-                case 'image-share':
-                    data = handleImageShareSubmit(uploadDate);
-                    storageKey = STORAGE_KEYS.IMAGE_SHARE;
-                    break;
-                case 'journal':
-                    data = handleJournalSubmit(uploadDate);
-                    storageKey = STORAGE_KEYS.JOURNAL;
-                    break;
-                case 'film-release':
-                    data = handleFilmReleaseSubmit(uploadDate);
-                    storageKey = STORAGE_KEYS.FILM_RELEASE;
-                    break;
-                case 'registration':
-                    data = handleRegistrationSubmit(uploadDate);
-                    storageKey = STORAGE_KEYS.REGISTRATION;
-                    break;
-                case 'poke-me':
-                    data = handlePokeMeSubmit(uploadDate);
-                    storageKey = STORAGE_KEYS.POKE_ME;
-                    break;
-                case 'logo-upload':
-                    handleLogoUpload();
-                    return;
-                case 'background-upload':
-                    handleBackgroundUpload();
-                    return;
-            }
-            
-            if (!data) return;
-            
-            // 保存数据
-            if (currentEditId) {
-                // 更新数据
-                updateData(storageKey, currentEditId, data);
-            } else {
-                // 添加新数据
-                data.id = Date.now().toString();
-                addData(storageKey, data);
-            }
-            
-            // 关闭模态框并刷新显示
-            closeModal();
-            loadAllData();
-        }
-        
-        // 处理图片分享表单提交
-        function handleImageShareSubmit(uploadDate) {
-            const title = document.getElementById('title').value.trim();
-            const location = document.getElementById('location').value.trim();
-            const notes = document.getElementById('notes').value.trim();
-            const imageInput = document.getElementById('images');
-            
-            if (!title) {
-                alert('请输入标题');
-                return null;
-            }
-            
-            if (!location) {
-                alert('请输入上传地点');
-                return null;
-            }
-            
-            if (imageInput.files.length === 0 && !currentEditId) {
-                alert('请至少上传一张图片');
-                return null;
-            }
-            
-            // 处理图片
-            const images = [];
-            if (imageInput.files.length > 0) {
-                if (imageInput.files.length > 5) {
-                    alert('最多只能上传5张图片');
-                    return null;
-                }
-                
-                for (let i = 0; i < imageInput.files.length; i++) {
-                    const file = imageInput.files[i];
-                    const reader = new FileReader();
-                    
-                    return new Promise((resolve) => {
-                        reader.onload = function(e) {
-                            images.push(e.target.result);
-                            if (images.length === imageInput.files.length) {
-                                resolve({
-                                    title,
-                                    location,
-                                    notes,
-                                    uploadDate,
-                                    images
-                                });
-                            }
-                        };
-                        reader.readAsDataURL(file);
-                    });
-                }
-            } else {
-                // 编辑模式下，如果没有新图片，使用原有图片
-                if (currentEditId) {
-                    const existingData = getData(STORAGE_KEYS.IMAGE_SHARE);
-                    const existingItem = existingData.find(item => item.id === currentEditId);
-                    if (existingItem && existingItem.images) {
-                        return {
-                            title,
-                            location,
-                            notes,
-                            uploadDate: existingItem.uploadDate, // 保持原上传日期
-                            images: existingItem.images
-                        };
-                    }
-                }
-            }
-            
-            return {
-                title,
-                location,
-                notes,
-                uploadDate,
-                images
-            };
-        }
-        
-        // 处理流水账表单提交
-        function handleJournalSubmit(uploadDate) {
-            const title = document.getElementById('title').value.trim();
-            const content = document.getElementById('content').value.trim();
-            
-            if (!title) {
-                alert('请输入标题');
-                return null;
-            }
-            
-            if (!content) {
-                alert('请输入内容');
-                return null;
-            }
-            
-            return {
-                title,
-                content,
-                uploadDate
-            };
-        }
-        
-        // 处理发片表单提交
-        function handleFilmReleaseSubmit(uploadDate) {
-            const number = document.getElementById('number').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const imageInput = document.getElementById('image');
-            
-            if (!address) {
-                alert('请输入上传地址');
-                return null;
-            }
-            
-            if (imageInput.files.length === 0 && !currentEditId) {
-                alert('请上传图片');
-                return null;
-            }
-            
-            // 处理图片
-            let image = '';
-            if (imageInput.files.length > 0) {
-                const file = imageInput.files[0];
-                const reader = new FileReader();
-                
-                return new Promise((resolve) => {
-                    reader.onload = function(e) {
-                        image = e.target.result;
-                        resolve({
-                            number,
-                            address,
-                            uploadDate,
-                            image
-                        });
-                    };
-                    reader.readAsDataURL(file);
-                });
-            } else {
-                // 编辑模式下，如果没有新图片，使用原有图片
-                if (currentEditId) {
-                    const existingData = getData(STORAGE_KEYS.FILM_RELEASE);
-                    const existingItem = existingData.find(item => item.id === currentEditId);
-                    if (existingItem && existingItem.image) {
-                        return {
-                            number,
-                            address,
-                            uploadDate: existingItem.uploadDate, // 保持原上传日期
-                            image: existingItem.image
-                        };
-                    }
-                }
-            }
-            
-            return {
-                number,
-                address,
-                uploadDate,
-                image
-            };
-        }
-        
-        // 处理登记表单提交
-        function handleRegistrationSubmit(uploadDate) {
-            const number = document.getElementById('number').value.trim();
-            const filmDate = document.getElementById('film-date').value;
-            const address = document.getElementById('address').value.trim();
-            const imageInput = document.getElementById('image');
-            
-            if (!number) {
-                alert('请输入编号');
-                return null;
-            }
-            
-            if (!filmDate) {
-                alert('请选择发片日期');
-                return null;
-            }
-            
-            if (!address) {
-                alert('请输入上传地址');
-                return null;
-            }
-            
-            if (imageInput.files.length === 0 && !currentEditId) {
-                alert('请上传图片');
-                return null;
-            }
-            
-            // 处理图片
-            let image = '';
-            if (imageInput.files.length > 0) {
-                const file = imageInput.files[0];
-                const reader = new FileReader();
-                
-                return new Promise((resolve) => {
-                    reader.onload = function(e) {
-                        image = e.target.result;
-                        resolve({
-                            number,
-                            filmDate,
-                            address,
-                            uploadDate,
-                            image
-                        });
-                    };
-                    reader.readAsDataURL(file);
-                });
-            } else {
-                // 编辑模式下，如果没有新图片，使用原有图片
-                if (currentEditId) {
-                    const existingData = getData(STORAGE_KEYS.REGISTRATION);
-                    const existingItem = existingData.find(item => item.id === currentEditId);
-                    if (existingItem && existingItem.image) {
-                        return {
-                            number,
-                            filmDate,
-                            address,
-                            uploadDate: existingItem.uploadDate, // 保持原上传日期
-                            image: existingItem.image
-                        };
-                    }
-                }
-            }
-            
-            return {
-                number,
-                filmDate,
-                address,
-                uploadDate,
-                image
-            };
-        }
-        
-        // 处理戳戳我表单提交
-        function handlePokeMeSubmit(uploadDate) {
-            const imageInput = document.getElementById('image');
-            
-            if (imageInput.files.length === 0 && !currentEditId) {
-                alert('请上传图片');
-                return null;
-            }
-            
-            // 处理图片
-            let image = '';
-            if (imageInput.files.length > 0) {
-                const file = imageInput.files[0];
-                const reader = new FileReader();
-                
-                return new Promise((resolve) => {
-                    reader.onload = function(e) {
-                        image = e.target.result;
-                        resolve({
-                            uploadDate,
-                            image
-                        });
-                    };
-                    reader.readAsDataURL(file);
-                });
-            } else {
-                // 编辑模式下，如果没有新图片，使用原有图片
-                if (currentEditId) {
-                    const existingData = getData(STORAGE_KEYS.POKE_ME);
-                    const existingItem = existingData.find(item => item.id === currentEditId);
-                    if (existingItem && existingItem.image) {
-                        return {
-                            uploadDate: existingItem.uploadDate, // 保持原上传日期
-                            image: existingItem.image
-                        };
-                    }
-                }
-            }
-            
-            return {
-                uploadDate,
-                image
-            };
-        }
-        
-        // 处理LOGO上传
-        function handleLogoUpload() {
-            const logoInput = document.getElementById('logo-file');
-            
-            if (logoInput.files.length === 0) {
-                alert('请选择LOGO图片');
-                return;
-            }
-            
-            const file = logoInput.files[0];
-            if (!file.type.match('image/jpeg') && !file.type.match('image/jpg') && !file.type.match('image/png')) {
-                alert('只支持JPG、JPEG、PNG格式的图片');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // 保存LOGO到localStorage
-                const settings = getData(STORAGE_KEYS.SETTINGS) || {};
-                settings.logo = e.target.result;
-                saveData(STORAGE_KEYS.SETTINGS, settings);
-                
-                // 更新页面LOGO
-                document.getElementById('site-logo').src = e.target.result;
-                document.getElementById('logo-preview').src = e.target.result;
-                
-                alert('LOGO上传成功！');
-                closeModal();
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        // 处理背景上传
-        function handleBackgroundUpload() {
-            const bgInput = document.getElementById('bg-file');
-            
-            if (bgInput.files.length === 0) {
-                alert('请选择背景图片');
-                return;
-            }
-            
-            const file = bgInput.files[0];
-            if (!file.type.match('image/jpeg') && !file.type.match('image/jpg') && !file.type.match('image/png')) {
-                alert('只支持JPG、JPEG、PNG格式的图片');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // 保存背景到localStorage
-                const settings = getData(STORAGE_KEYS.SETTINGS) || {};
-                settings.background = e.target.result;
-                saveData(STORAGE_KEYS.SETTINGS, settings);
-                
-                // 更新页面背景
-                document.body.style.backgroundImage = `url(${e.target.result})`;
-                document.body.style.backgroundSize = 'cover';
-                document.body.style.backgroundAttachment = 'fixed';
-                document.getElementById('bg-preview').src = e.target.result;
-                
-                alert('背景上传成功！');
-                closeModal();
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        // 删除LOGO
-        function deleteLogo() {
-            const settings = getData(STORAGE_KEYS.SETTINGS) || {};
-            delete settings.logo;
-            saveData(STORAGE_KEYS.SETTINGS, settings);
-            
-            // 更新页面LOGO
-            document.getElementById('site-logo').src = '';
-            document.getElementById('logo-preview').src = '';
-            
-            alert('LOGO已删除');
-        }
-        
-        // 删除背景
-        function deleteBackground() {
-            const settings = getData(STORAGE_KEYS.SETTINGS) || {};
-            delete settings.background;
-            saveData(STORAGE_KEYS.SETTINGS, settings);
-            
-            // 更新页面背景
-            document.body.style.backgroundImage = '';
-            document.body.style.backgroundColor = '#f5f5f5';
-            document.getElementById('bg-preview').src = '';
-            
-            alert('背景已删除');
-        }
-        
-        // 加载设置
-        function loadSettings() {
-            const settings = getData(STORAGE_KEYS.SETTINGS) || {};
-            
-            // 加载LOGO
-            if (settings.logo) {
-                document.getElementById('site-logo').src = settings.logo;
-                document.getElementById('logo-preview').src = settings.logo;
-            }
-            
-            // 加载背景
-            if (settings.background) {
-                document.body.style.backgroundImage = `url(${settings.background})`;
-                document.body.style.backgroundSize = 'cover';
-                document.body.style.backgroundAttachment = 'fixed';
-                document.getElementById('bg-preview').src = settings.background;
-            }
-        }
-        
-        // 加载所有数据
-        function loadAllData() {
-            loadImageShareData();
-            loadJournalData();
-            loadFilmReleaseData();
-            loadRegistrationData();
-            loadPokeMeData();
-        }
-        
-        // 加载图片分享数据
-        function loadImageShareData() {
-            const container = document.getElementById('image-share-container');
-            const data = getData(STORAGE_KEYS.IMAGE_SHARE);
-            
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📷</div><div class="empty-text">暂无图片分享数据</div></div>';
-                return;
-            }
-            
-            let html = '';
-            data.forEach(item => {
-                html += `
-                    <div class="data-item">
-                        ${item.images && item.images.length > 0 ? 
-                          `<img src="${item.images[0]}" class="item-image" onclick="viewImage('${item.images[0]}')" alt="${item.title}">` : 
-                          '<div class="item-image" style="background-color: #eee; display: flex; align-items: center; justify-content: center;">无图片</div>'}
-                        <h3 class="item-title">${item.title || '无标题'}</h3>
-                        <div class="item-info">上传日期: ${item.uploadDate || '未知'}</div>
-                        <div class="item-info">上传地点: ${item.location || '未知'}</div>
-                        <div class="item-info">备注: ${item.notes || '无备注'}</div>
-                        <div class="item-actions">
-                            <button class="edit-btn" onclick="editItem('image-share', '${item.id}')">编辑</button>
-                            <button class="delete-btn" onclick="deleteItem('image-share', '${item.id}')">删除</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        // 加载流水账数据
-        function loadJournalData() {
-            const container = document.getElementById('journal-container');
-            const data = getData(STORAGE_KEYS.JOURNAL);
-            
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📝</div><div class="empty-text">暂无流水账数据</div></div>';
-                return;
-            }
-            
-            let html = '';
-            data.forEach(item => {
-                html += `
-                    <div class="data-item">
-                        <h3 class="item-title">${item.title || '无标题'}</h3>
-                        <div class="item-info">上传日期: ${item.uploadDate || '未知'}</div>
-                        <div class="item-info" style="margin-top: 10px;">${item.content || '无内容'}</div>
-                        <div class="item-actions">
-                            <button class="edit-btn" onclick="editItem('journal', '${item.id}')">编辑</button>
-                            <button class="delete-btn" onclick="deleteItem('journal', '${item.id}')">删除</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        // 加载发片数据
-        function loadFilmReleaseData() {
-            const container = document.getElementById('film-release-container');
-            const data = getData(STORAGE_KEYS.FILM_RELEASE);
-            
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🎞️</div><div class="empty-text">暂无发片数据</div></div>';
-                return;
-            }
-            
-            let html = '';
-            data.forEach(item => {
-                html += `
-                    <div class="data-item">
-                        ${item.image ? 
-                          `<img src="${item.image}" class="item-image" onclick="viewImage('${item.image}')" alt="发片图片">` : 
-                          '<div class="item-image" style="background-color: #eee; display: flex; align-items: center; justify-content: center;">无图片</div>'}
-                        <h3 class="item-title">编号: ${item.number || '无编号'}</h3>
-                        <div class="item-info">上传日期: ${item.uploadDate || '未知'}</div>
-                        <div class="item-info">上传地址: ${item.address || '未知'}</div>
-                        <div class="item-actions">
-                            <button class="edit-btn" onclick="editItem('film-release', '${item.id}')">编辑</button>
-                            <button class="delete-btn" onclick="deleteItem('film-release', '${item.id}')">删除</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        // 加载登记数据
-        function loadRegistrationData() {
-            const container = document.getElementById('registration-container');
-            const data = getData(STORAGE_KEYS.REGISTRATION);
-            
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">暂无登记数据</div></div>';
-                return;
-            }
-            
-            let html = '';
-            data.forEach(item => {
-                html += `
-                    <div class="data-item">
-                        ${item.image ? 
-                          `<img src="${item.image}" class="item-image" onclick="viewImage('${item.image}')" alt="登记图片">` : 
-                          '<div class="item-image" style="background-color: #eee; display: flex; align-items: center; justify-content: center;">无图片</div>'}
-                        <h3 class="item-title">编号: ${item.number || '无编号'}</h3>
-                        <div class="item-info">发片日期: ${item.filmDate || '未知'}</div>
-                        <div class="item-info">登记日期: ${item.uploadDate || '未知'}</div>
-                        <div class="item-info">上传地址: ${item.address || '未知'}</div>
-                        <div class="item-actions">
-                            <button class="edit-btn" onclick="editItem('registration', '${item.id}')">编辑</button>
-                            <button class="delete-btn" onclick="deleteItem('registration', '${item.id}')">删除</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        // 加载戳戳我数据
-        function loadPokeMeData() {
-            const container = document.getElementById('poke-me-container');
-            const data = getData(STORAGE_KEYS.POKE_ME);
-            
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="empty-icon">👋</div><div class="empty-text">暂无戳戳我数据</div></div>';
-                return;
-            }
-            
-            let html = '';
-            data.forEach(item => {
-                html += `
-                    <div class="data-item">
-                        ${item.image ? 
-                          `<img src="${item.image}" class="item-image" onclick="viewImage('${item.image}')" alt="戳戳我图片">` : 
-                          '<div class="item-image" style="background-color: #eee; display: flex; align-items: center; justify-content: center;">无图片</div>'}
-                        <div class="item-info">上传日期: ${item.uploadDate || '未知'}</div>
-                        <div class="item-actions">
-                            <button class="edit-btn" onclick="editItem('poke-me', '${item.id}')">编辑</button>
-                            <button class="delete-btn" onclick="deleteItem('poke-me', '${item.id}')">删除</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-        
-        // 查看图片
-        function viewImage(imageSrc) {
-            document.getElementById('image-viewer').classList.add('active');
-            document.querySelector('.viewer-img').src = imageSrc;
-        }
-        
-        // 关闭图片查看器
-        function closeImageViewer() {
-            document.getElementById('image-viewer').classList.remove('active');
-        }
-        
-        // 编辑项目
-        function editItem(dataType, id) {
-            openPasswordModal(dataType);
-            // 密码验证通过后会打开模态框，我们需要在打开模态框后设置编辑ID
-            // 这里我们通过一个延迟来确保密码验证完成
-            setTimeout(() => {
-                if (passwordVerified) {
-                    currentEditId = id;
-                    openDataModal(id);
-                }
-            }, 100);
-        }
-        
-        // 删除项目
-        function deleteItem(dataType, id) {
-            if (!confirm('确定要删除这条记录吗？')) return;
-            
-            openPasswordModal(dataType);
-            // 密码验证通过后执行删除
-            setTimeout(() => {
-                if (passwordVerified) {
-                    let storageKey;
-                    switch(dataType) {
-                        case 'image-share': storageKey = STORAGE_KEYS.IMAGE_SHARE; break;
-                        case 'journal': storageKey = STORAGE_KEYS.JOURNAL; break;
-                        case 'film-release': storageKey = STORAGE_KEYS.FILM_RELEASE; break;
-                        case 'registration': storageKey = STORAGE_KEYS.REGISTRATION; break;
-                        case 'poke-me': storageKey = STORAGE_KEYS.POKE_ME; break;
-                    }
-                    
-                    if (storageKey) {
-                        removeData(storageKey, id);
-                        loadAllData();
-                        alert('删除成功！');
-                    }
-                }
-            }, 100);
-        }
-        
-        // 数据存储辅助函数
-        function getData(key) {
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : [];
-        }
-        
-        function saveData(key, data) {
-            localStorage.setItem(key, JSON.stringify(data));
-        }
-        
-        function addData(key, item) {
-            const data = getData(key);
-            data.push(item);
-            saveData(key, data);
-        }
-        
-        function updateData(key, id, updates) {
-            const data = getData(key);
-            const index = data.findIndex(item => item.id === id);
-            if (index !== -1) {
-                data[index] = {...data[index], ...updates};
-                saveData(key, data);
-            }
-        }
-        
-        function removeData(key, id) {
-            const data = getData(key);
-            const newData = data.filter(item => item.id !== id);
-            saveData(key, newData);
-        }
-        
-        // 暴露函数到全局作用域
-        window.viewImage = viewImage;
-        window.editItem = editItem;
-        window.deleteItem = deleteItem;
     </script>
 </body>
 </html>
