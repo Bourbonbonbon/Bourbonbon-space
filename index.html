@@ -287,6 +287,12 @@
             color: var(--primary-color);
         }
         
+        .file-info {
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
         /* 模态框样式 */
         .modal {
             display: none;
@@ -365,6 +371,13 @@
             font-size: 3rem;
             margin-bottom: 20px;
             color: #ccc;
+        }
+        
+        .char-count {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 5px;
         }
         
         /* 响应式调整 */
@@ -457,7 +470,7 @@
                         <div class="form-group">
                             <label for="image-upload">图片（支持JPG、JPEG、PNG，最多5张）</label>
                             <input type="file" id="image-upload" class="form-control" accept=".jpg,.jpeg,.png" multiple required>
-                            <div class="file-info" id="image-file-info"></div>
+                            <div class="file-info" id="image-file-info">未选择文件</div>
                         </div>
                     </div>
                     
@@ -541,7 +554,7 @@
                         <div class="form-group">
                             <label for="pics-upload">图片（支持JPG、JPEG、PNG）</label>
                             <input type="file" id="pics-upload" class="form-control" accept=".jpg,.jpeg,.png" required>
-                            <div class="file-info" id="pics-file-info"></div>
+                            <div class="file-info" id="pics-file-info">未选择文件</div>
                         </div>
                     </div>
                     
@@ -589,7 +602,7 @@
                         <div class="form-group">
                             <label for="register-upload">图片（支持JPG、JPEG、PNG）</label>
                             <input type="file" id="register-upload" class="form-control" accept=".jpg,.jpeg,.png" required>
-                            <div class="file-info" id="register-file-info"></div>
+                            <div class="file-info" id="register-file-info">未选择文件</div>
                         </div>
                     </div>
                     
@@ -615,8 +628,8 @@
             <div class="settings-container" id="settings-content" style="display: none;">
                 <div class="setting-item">
                     <h3>LOGO设置</h3>
-                    <p>支持JPG、JPEG、PNG格式，尺寸为75x75像素</p>
-                    <img id="current-logo" class="setting-img" src="" alt="当前LOGO">
+                    <p>支持JPG、JPEG、PNG格式，建议尺寸为75x75像素</p>
+                    <img id="current-logo" class="setting-img" src="" alt="当前LOGO" style="max-width: 150px;">
                     <div class="form-row" style="margin-top: 20px;">
                         <div class="form-group">
                             <input type="file" id="logo-upload" class="form-control" accept=".jpg,.jpeg,.png">
@@ -633,7 +646,7 @@
                 <div class="setting-item">
                     <h3>背景设置</h3>
                     <p>支持JPG、JPEG、PNG格式</p>
-                    <img id="current-bg" class="setting-img" src="" alt="当前背景">
+                    <img id="current-bg" class="setting-img" src="" alt="当前背景" style="max-width: 200px;">
                     <div class="form-row" style="margin-top: 20px;">
                         <div class="form-group">
                             <input type="file" id="bg-upload" class="form-control" accept=".jpg,.jpeg,.png">
@@ -668,7 +681,7 @@
                         <div class="form-group">
                             <label for="poke-upload">图片（支持JPG、JPEG、PNG）</label>
                             <input type="file" id="poke-upload" class="form-control" accept=".jpg,.jpeg,.png" required>
-                            <div class="file-info" id="poke-file-info"></div>
+                            <div class="file-info" id="poke-file-info">未选择文件</div>
                         </div>
                     </div>
                     
@@ -720,6 +733,9 @@
             
             // 设置字符计数
             setupCharCounters();
+            
+            // 设置文件选择显示
+            setupFileInputs();
             
             // 显示当前标签页内容
             showTabContent(currentTab);
@@ -784,17 +800,21 @@
             const logo = document.getElementById('site-logo');
             if (settingsData.logo) {
                 logo.src = settingsData.logo;
+                document.getElementById('current-logo').src = settingsData.logo;
                 logo.style.display = 'block';
             } else {
                 logo.style.display = 'none';
+                document.getElementById('current-logo').src = '';
             }
             
             if (settingsData.background) {
                 document.body.style.backgroundImage = `url(${settingsData.background})`;
                 document.body.style.backgroundSize = 'cover';
                 document.body.style.backgroundAttachment = 'fixed';
+                document.getElementById('current-bg').src = settingsData.background;
             } else {
                 document.body.style.backgroundImage = 'none';
+                document.getElementById('current-bg').src = '';
             }
         }
         
@@ -888,6 +908,13 @@
             } else {
                 document.getElementById(`upload-${section}-form`).style.display = 'none';
                 document.getElementById(`upload-${section}-form`).reset();
+                
+                // 重置字符计数
+                if (section === 'images') {
+                    document.getElementById('image-remark-count').textContent = '0';
+                } else if (section === 'diary') {
+                    document.getElementById('diary-content-count').textContent = '0';
+                }
             }
             
             // 清空密码输入
@@ -927,6 +954,73 @@
             return `${year}年${month}月${day}日 ${hour}:${minute}`;
         }
         
+        // 设置文件选择显示
+        function setupFileInputs() {
+            // 图片分享文件输入
+            const imageUpload = document.getElementById('image-upload');
+            const imageFileInfo = document.getElementById('image-file-info');
+            
+            imageUpload.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    imageFileInfo.textContent = `已选择 ${this.files.length} 个文件`;
+                } else {
+                    imageFileInfo.textContent = '未选择文件';
+                }
+            });
+            
+            // 发片文件输入
+            const picsUpload = document.getElementById('pics-upload');
+            const picsFileInfo = document.getElementById('pics-file-info');
+            
+            picsUpload.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    picsFileInfo.textContent = `已选择 1 个文件: ${this.files[0].name}`;
+                } else {
+                    picsFileInfo.textContent = '未选择文件';
+                }
+            });
+            
+            // 登记文件输入
+            const registerUpload = document.getElementById('register-upload');
+            const registerFileInfo = document.getElementById('register-file-info');
+            
+            registerUpload.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    registerFileInfo.textContent = `已选择 1 个文件: ${this.files[0].name}`;
+                } else {
+                    registerFileInfo.textContent = '未选择文件';
+                }
+            });
+            
+            // 戳戳我文件输入
+            const pokeUpload = document.getElementById('poke-upload');
+            const pokeFileInfo = document.getElementById('poke-file-info');
+            
+            pokeUpload.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    pokeFileInfo.textContent = `已选择 1 个文件: ${this.files[0].name}`;
+                } else {
+                    pokeFileInfo.textContent = '未选择文件';
+                }
+            });
+            
+            // LOGO上传
+            const logoUpload = document.getElementById('logo-upload');
+            logoUpload.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    console.log('选择了LOGO文件:', this.files[0].name);
+                }
+            });
+            
+            // 背景上传
+            const bgUpload = document.getElementById('bg-upload');
+            bgUpload.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    console.log('选择了背景文件:', this.files[0].name);
+                }
+            });
+        }
+        
         // 设置表单提交事件
         function setupForms() {
             // 图片上传表单
@@ -948,40 +1042,48 @@
                     return;
                 }
                 
-                // 读取所有图片文件
-                const readers = [];
+                // 验证文件类型
                 for (let i = 0; i < fileInput.files.length; i++) {
-                    const reader = new FileReader();
-                    readers.push(new Promise((resolve) => {
-                        reader.onload = function(e) {
-                            resolve(e.target.result);
-                        };
-                        reader.readAsDataURL(fileInput.files[i]);
-                    }));
+                    const file = fileInput.files[i];
+                    const fileType = file.type;
+                    if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
+                        alert('只支持JPG、JPEG、PNG格式的图片！');
+                        return;
+                    }
                 }
                 
-                // 所有图片读取完成后保存
-                Promise.all(readers).then(images => {
-                    const uploadDate = getCurrentDateTime();
+                const uploadDate = getCurrentDateTime();
+                let uploadedCount = 0;
+                
+                // 处理每张图片
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    const file = fileInput.files[i];
+                    const reader = new FileReader();
                     
-                    images.forEach(imageDataURL => {
+                    reader.onload = function(e) {
                         const newImage = {
                             id: Date.now() + Math.random(),
                             title: title,
                             location: location,
                             remark: remark,
                             uploadDate: uploadDate,
-                            image: imageDataURL
+                            image: e.target.result
                         };
                         
                         imageData.unshift(newImage);
-                    });
+                        uploadedCount++;
+                        
+                        // 所有图片处理完成后保存并渲染
+                        if (uploadedCount === fileInput.files.length) {
+                            saveData();
+                            renderImages();
+                            alert(`成功上传 ${uploadedCount} 张图片！`);
+                            cancelUpload('images');
+                        }
+                    };
                     
-                    saveData();
-                    renderImages();
-                    cancelUpload('images');
-                    alert('图片上传成功！');
-                });
+                    reader.readAsDataURL(file);
+                }
             });
             
             // 流水账上传表单
@@ -990,6 +1092,12 @@
                 
                 const title = document.getElementById('diary-title').value;
                 const content = document.getElementById('diary-content').value;
+                
+                if (content.length > 30) {
+                    alert('流水账内容不能超过30个字！');
+                    return;
+                }
+                
                 const uploadDate = getCurrentDateTime();
                 
                 const newDiary = {
@@ -1002,8 +1110,8 @@
                 diaryData.unshift(newDiary);
                 saveData();
                 renderDiary();
-                cancelUpload('diary');
                 alert('流水账提交成功！');
+                cancelUpload('diary');
             });
             
             // 发片上传表单
@@ -1016,6 +1124,13 @@
                 
                 if (fileInput.files.length === 0) {
                     alert('请选择一张图片！');
+                    return;
+                }
+                
+                const file = fileInput.files[0];
+                const fileType = file.type;
+                if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
+                    alert('只支持JPG、JPEG、PNG格式的图片！');
                     return;
                 }
                 
@@ -1034,10 +1149,10 @@
                     picsData.unshift(newPic);
                     saveData();
                     renderPics();
-                    cancelUpload('pics');
                     alert('发片上传成功！');
+                    cancelUpload('pics');
                 };
-                reader.readAsDataURL(fileInput.files[0]);
+                reader.readAsDataURL(file);
             });
             
             // 登记上传表单
@@ -1051,6 +1166,13 @@
                 
                 if (fileInput.files.length === 0) {
                     alert('请选择一张图片！');
+                    return;
+                }
+                
+                const file = fileInput.files[0];
+                const fileType = file.type;
+                if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
+                    alert('只支持JPG、JPEG、PNG格式的图片！');
                     return;
                 }
                 
@@ -1070,10 +1192,10 @@
                     registerData.unshift(newRegister);
                     saveData();
                     renderRegister();
-                    cancelUpload('register');
                     alert('登记上传成功！');
+                    cancelUpload('register');
                 };
-                reader.readAsDataURL(fileInput.files[0]);
+                reader.readAsDataURL(file);
             });
             
             // 戳戳我上传表单
@@ -1084,6 +1206,13 @@
                 
                 if (fileInput.files.length === 0) {
                     alert('请选择一张图片！');
+                    return;
+                }
+                
+                const file = fileInput.files[0];
+                const fileType = file.type;
+                if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
+                    alert('只支持JPG、JPEG、PNG格式的图片！');
                     return;
                 }
                 
@@ -1100,10 +1229,10 @@
                     pokeData.unshift(newPoke);
                     saveData();
                     renderPoke();
-                    cancelUpload('poke');
                     alert('图片上传成功！');
+                    cancelUpload('poke');
                 };
-                reader.readAsDataURL(fileInput.files[0]);
+                reader.readAsDataURL(file);
             });
         }
         
@@ -1130,7 +1259,7 @@
         function renderImages() {
             const container = document.querySelector('.images-container');
             
-            if (imageData.length === 0) {
+            if (!imageData || imageData.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-images"></i>
@@ -1152,7 +1281,7 @@
                     <div class="item-info">
                         <p><strong>上传日期：</strong>${item.uploadDate}</p>
                         <p><strong>上传地点：</strong>${item.location}</p>
-                        <p><strong>备注：</strong>${item.remark}</p>
+                        <p><strong>备注：</strong>${item.remark || '无'}</p>
                     </div>
                     <div class="item-actions">
                         <button class="edit-btn" onclick="editImage(${item.id})">编辑</button>
@@ -1167,7 +1296,7 @@
         function renderDiary() {
             const container = document.querySelector('.records-container');
             
-            if (diaryData.length === 0) {
+            if (!diaryData || diaryData.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-book"></i>
@@ -1202,7 +1331,7 @@
         function renderPics() {
             const container = document.querySelector('.pics-container');
             
-            if (picsData.length === 0) {
+            if (!picsData || picsData.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-camera"></i>
@@ -1238,7 +1367,7 @@
         function renderRegister() {
             const container = document.querySelector('.register-container');
             
-            if (registerData.length === 0) {
+            if (!registerData || registerData.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-file-alt"></i>
@@ -1275,7 +1404,7 @@
         function renderPoke() {
             const container = document.querySelector('.poke-container');
             
-            if (pokeData.length === 0) {
+            if (!pokeData || pokeData.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-heart"></i>
@@ -1342,17 +1471,21 @@
                 return;
             }
             
+            const file = fileInput.files[0];
+            const fileType = file.type;
+            if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
+                alert('只支持JPG、JPEG、PNG格式的图片！');
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onload = function(e) {
                 settingsData.logo = e.target.result;
                 saveData();
                 applySettings();
                 alert('LOGO上传成功！');
-                
-                // 更新设置页面显示的LOGO
-                document.getElementById('current-logo').src = e.target.result;
             };
-            reader.readAsDataURL(fileInput.files[0]);
+            reader.readAsDataURL(file);
         }
         
         // 删除LOGO
@@ -1361,7 +1494,6 @@
                 settingsData.logo = null;
                 saveData();
                 applySettings();
-                document.getElementById('current-logo').src = '';
                 alert('LOGO已删除！');
             }
         }
@@ -1375,17 +1507,21 @@
                 return;
             }
             
+            const file = fileInput.files[0];
+            const fileType = file.type;
+            if (!['image/jpeg', 'image/jpg', 'image/png'].includes(fileType)) {
+                alert('只支持JPG、JPEG、PNG格式的图片！');
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onload = function(e) {
                 settingsData.background = e.target.result;
                 saveData();
                 applySettings();
                 alert('背景上传成功！');
-                
-                // 更新设置页面显示的背景
-                document.getElementById('current-bg').src = e.target.result;
             };
-            reader.readAsDataURL(fileInput.files[0]);
+            reader.readAsDataURL(file);
         }
         
         // 删除背景
@@ -1394,7 +1530,6 @@
                 settingsData.background = null;
                 saveData();
                 applySettings();
-                document.getElementById('current-bg').src = '';
                 alert('背景图片已删除！');
             }
         }
@@ -1402,7 +1537,7 @@
         // 以下是编辑和删除功能
         // 图片分享的编辑和删除
         function editImage(id) {
-            const item = imageData.find(item => item.id === id);
+            const item = imageData.find(item => item.id == id);
             if (!item) return;
             
             const newTitle = prompt('请输入新标题：', item.title);
@@ -1430,7 +1565,7 @@
         
         function deleteImage(id) {
             if (confirm('确定要删除这张图片吗？')) {
-                imageData = imageData.filter(item => item.id !== id);
+                imageData = imageData.filter(item => item.id != id);
                 saveData();
                 renderImages();
                 alert('删除成功！');
@@ -1439,7 +1574,7 @@
         
         // 流水账的编辑和删除
         function editDiary(id) {
-            const item = diaryData.find(item => item.id === id);
+            const item = diaryData.find(item => item.id == id);
             if (!item) return;
             
             const newTitle = prompt('请输入新标题：', item.title);
@@ -1463,7 +1598,7 @@
         
         function deleteDiary(id) {
             if (confirm('确定要删除这条流水账吗？')) {
-                diaryData = diaryData.filter(item => item.id !== id);
+                diaryData = diaryData.filter(item => item.id != id);
                 saveData();
                 renderDiary();
                 alert('删除成功！');
@@ -1472,7 +1607,7 @@
         
         // 发片的编辑和删除
         function editPic(id) {
-            const item = picsData.find(item => item.id === id);
+            const item = picsData.find(item => item.id == id);
             if (!item) return;
             
             const newLocation = prompt('请输入新上传地址（省、市、区、街道）：', item.location);
@@ -1487,7 +1622,7 @@
         
         function deletePic(id) {
             if (confirm('确定要删除这张发片吗？')) {
-                picsData = picsData.filter(item => item.id !== id);
+                picsData = picsData.filter(item => item.id != id);
                 saveData();
                 renderPics();
                 alert('删除成功！');
@@ -1496,7 +1631,7 @@
         
         // 登记的编辑和删除
         function editRegister(id) {
-            const item = registerData.find(item => item.id === id);
+            const item = registerData.find(item => item.id == id);
             if (!item) return;
             
             const newNumber = prompt('请输入新编号：', item.number);
@@ -1519,7 +1654,7 @@
         
         function deleteRegister(id) {
             if (confirm('确定要删除这条登记记录吗？')) {
-                registerData = registerData.filter(item => item.id !== id);
+                registerData = registerData.filter(item => item.id != id);
                 saveData();
                 renderRegister();
                 alert('删除成功！');
@@ -1534,7 +1669,7 @@
         
         function deletePoke(id) {
             if (confirm('确定要删除这张戳戳我图片吗？')) {
-                pokeData = pokeData.filter(item => item.id !== id);
+                pokeData = pokeData.filter(item => item.id != id);
                 saveData();
                 renderPoke();
                 alert('删除成功！');
